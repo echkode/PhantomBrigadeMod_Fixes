@@ -93,7 +93,7 @@
   <ItemGroup>
     <Compile Include="Fixes\CombatUtilities.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Fixes\CombatLandingSystem.cs" />
+    <Compile Include="Obsolete\CombatLandingSystem.cs" />
     <Compile Include="ModLink.cs" />
     <Compile Include="Patch.cs" />
     <Compile Include="Fixes\ProjectileProximityFuseSystem.cs" />

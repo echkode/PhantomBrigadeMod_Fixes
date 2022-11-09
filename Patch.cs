@@ -1,8 +1,6 @@
 ﻿// Copyright (c) 2022 EchKode
 // SPDX-License-Identifier: BSD-3-Clause
 
-using System.Collections.Generic;
-
 using HarmonyLib;
 using UnityEngine;
 
@@ -13,13 +11,6 @@ namespace EchKode.PBMods.Fixes
 	[HarmonyPatch]
 	static class Patch
 	{
-		[HarmonyPatch(typeof(PhantomBrigade.Combat.Systems.CombatLandingSystem), "Execute")]
-		[HarmonyPostfix]
-		static void Cls_ExecutePostfix()
-		{
-			CombatLandingSystem.RefreshTabs();
-		}
-
 		[HarmonyPatch(typeof(PhantomBrigade.CombatUtilities), "GetHitDirection")]
 		[HarmonyPrefix]
 		static bool Cu_GetHitDirectionPrefix(Quaternion objectRotation, Vector3 incomingDirection, ref string __result)

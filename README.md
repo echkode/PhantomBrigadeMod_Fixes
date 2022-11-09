@@ -2,10 +2,9 @@
 
 This is a collection of bug fixes and other corrections for [Phantom Brigade (Alpha)](https://braceyourselfgames.com/phantom-brigade/). This is not a mod in the traditional sense of an extension to the game that adds a feature or brings in new content and I do not recommend using it as a mod. Rather, it's more akin to a working journal of solutions to problems I've discovered while going through the disassembly of the game.
 
-Quick links to the fixes:
+Current fixes:
 
 - [CombatUtilities.GetHitDirection](#combatutilitiesgethitdirection)
-- [CombatLandingSystem](#combatlandingsystem) _fixed in 0.22_
 - [ProjectileSplashDamageSystem](#projectilesplashdamagesystem)
 - [ProjectileProximityFuseSystem](#projectileproximityfusesystem)
 - [CaptureWithAlpha.GetProjectPath](#capturewithalphagetprojectpath)
@@ -13,14 +12,14 @@ Quick links to the fixes:
 - [CombatActionEvent.OnEjection](#combatactioneventonejection)
 - [CombatCollisionSystem](#combatcollisionsystem)
 
+Obsolete fixes:
+
+- [CombatLandingSystem](#combatlandingsystem) (patched in PB release 0.22)
+
+
 ## CombatUtilities.GetHitDirection
 
 Attacking from the back left of a target sometimes returns "right". Quick fix to change the return value to its proper value of "back".
-
-## CombatLandingSystem
-
-_Fixed in 0.22_<br />
-UI tabs don't always appear for the new units. A simple one-line fix to trigger a redraw of the UI tabs.
 
 ## ProjectileSplashDamageSystem
 
@@ -45,3 +44,8 @@ The pilot stat `pilot_auto_combat_takedowns` records the number of enemy mechs t
 ## CombatCollisionSystem
 
 There are two fixes to this system. The first fix applies a scaling factor to the damage a projectile does to environment objects. This matches what is done when a projectile hits a unit. This mostly affects railgun projectiles. The second fix is tracking the unit that fires each projectile so when a unit's pilot ejects, credit for downing the unit can be assigned to the attacking pilot.
+
+## CombatLandingSystem
+
+_Fixed in Phantom Brigade release 0.22_<br />
+UI tabs don't always appear for the new units. A simple one-line fix to trigger a redraw of the UI tabs.

@@ -38,7 +38,6 @@ namespace EchKode.PBMods.Fixes
 			}
 
 			ModManager.Initialize();
-			CombatLandingSystem.Initialize();
 			CombatCollisionSystem.Initialize();
 		}
 	}

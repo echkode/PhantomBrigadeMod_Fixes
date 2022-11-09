@@ -9,6 +9,8 @@ namespace EchKode.PBMods.Fixes
 {
 	static class CombatLandingSystem
 	{
+		// This has been fixed as of PB release 0.22.
+
 		private static List<int> unitsToRemove;
 
 		internal static void Initialize()

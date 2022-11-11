@@ -3,9 +3,6 @@
 
 using System.Collections.Generic;
 
-using Entitas;
-using HarmonyLib;
-
 using PhantomBrigade;
 using PhantomBrigade.Combat.Systems;
 using PhantomBrigade.Data;
@@ -20,29 +17,11 @@ namespace EchKode.PBMods.Fixes
 	{
 		public static void Initialize()
 		{
-			Heartbeat.Systems.Add(Load);
-		}
-
-		public static void Load(GameController gameController)
-		{
-			var gcs = gameController.m_stateDict["combat"];
-			var combatSystems = gcs.m_systems[0];
-			var fi = AccessTools.Field(combatSystems.GetType(), "_executeSystems");
-			var systems = (List<IExecuteSystem>)fi.GetValue(combatSystems);
-			var idx = systems.FindIndex(sys => sys is PBCombatCollisionSystem);
-			if (idx == -1)
-			{
-				return;
-			}
-
-			systems[idx] = new CombatCollisionSystem(Contexts.sharedInstance, ECS.Contexts.sharedInstance.ekCombat);
-			Debug.Log($"Mod {ModLink.modIndex} ({ModLink.modId}) extending {nameof(CombatCollisionSystem)}");
-
-			// XXX not sure how necessary this is since the profiler is something you generally use from within
-			// the Unity editor.
-			fi = AccessTools.Field(combatSystems.GetType(), "_executeSystemNames");
-			var names = (List<string>)fi.GetValue(combatSystems);
-			names[idx] = systems[idx].GetType().FullName;
+			Heartbeat.Systems.Add(gc =>
+				ReplacementSystemLoader.Load<PBCombatCollisionSystem, CombatCollisionSystem>(
+					gc,
+					"combat",
+					contexts => new CombatCollisionSystem(contexts, ECS.Contexts.sharedInstance.ekCombat)));
 		}
 
 		private readonly CombatContext combat;

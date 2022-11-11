@@ -39,6 +39,9 @@ namespace EchKode.PBMods.Fixes
 
 			ModManager.Initialize();
 			CombatCollisionSystem.Initialize();
+			ProjectileProximityFuseSystem.Initialize();
+			ProjectileSplashDamageSystem.Initialize();
+			ECS.EkCombatTeardownSystem.Initialize();
 		}
 	}
 }

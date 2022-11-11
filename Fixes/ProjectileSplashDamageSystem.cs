@@ -9,14 +9,12 @@ using PhantomBrigade;
 using PhantomBrigade.Data;
 using PhantomBrigade.Combat.Components;
 using PhantomBrigade.Combat.View;
+using PBProjectileSplashDamageSystem = PhantomBrigade.Combat.Systems.ProjectileSplashDamageSystem;
 
 using UnityEngine;
-using Entitas;
 
 namespace EchKode.PBMods.Fixes
 {
-	using PBProjectileSplashDamageSystem = PhantomBrigade.Combat.Systems.ProjectileSplashDamageSystem;
-
 	public class ProjectileSplashDamageSystem : PBProjectileSplashDamageSystem
 	{
 		private readonly Collider[] overlapColliders;
@@ -25,29 +23,11 @@ namespace EchKode.PBMods.Fixes
 
 		public static void Initialize()
 		{
-			Heartbeat.Systems.Add(Load);
-		}
-
-		public static void Load(GameController gameController)
-		{
-			var gcs = gameController.m_stateDict["combat"];
-			var combatSystems = gcs.m_systems[0];
-			var fi = AccessTools.Field(combatSystems.GetType(), "_executeSystems");
-			var systems = (List<IExecuteSystem>)fi.GetValue(combatSystems);
-			var idx = systems.FindIndex(sys => sys is PBProjectileSplashDamageSystem);
-			if (idx == -1)
-			{
-				return;
-			}
-
-			systems[idx] = new ProjectileSplashDamageSystem(Contexts.sharedInstance);
-			Debug.Log($"Mod {ModLink.modIndex} ({ModLink.modId}) extending {nameof(ProjectileSplashDamageSystem)}");
-
-			// XXX not sure how necessary this is since the profiler is something you generally use from within
-			// the Unity editor.
-			fi = AccessTools.Field(combatSystems.GetType(), "_executeSystemNames");
-			var names = (List<string>)fi.GetValue(combatSystems);
-			names[idx] = systems[idx].GetType().FullName;
+			Heartbeat.Systems.Add(gc =>
+				ReplacementSystemLoader.Load<PBProjectileSplashDamageSystem, ProjectileSplashDamageSystem>(
+					gc,
+					"combat",
+					contexts => new ProjectileSplashDamageSystem(contexts)));
 		}
 
 		public ProjectileSplashDamageSystem(Contexts contexts)

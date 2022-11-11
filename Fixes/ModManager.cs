@@ -11,6 +11,8 @@ using System.Reflection;
 using HarmonyLib;
 
 using PhantomBrigade.Data;
+using PBModManager = PhantomBrigade.Mods.ModManager;
+
 using UnityEngine;
 
 namespace EchKode.PBMods.Fixes
@@ -136,6 +138,44 @@ namespace EchKode.PBMods.Fixes
 				[typeFloat] = 0f,
 				[typeVector3] = Vector3.zero,
 			};
+		}
+
+		internal static void LoadText()
+		{
+			Debug.Log($"Mod {ModLink.modIndex} ({ModLink.modId}) attempting to patch English text library");
+
+			var sectors = new SortedDictionary<string, DataContainerTextSectorLocalization>();
+			// Accessing libraryData will load the default text library if it hasn't already been loaded.
+			foreach (var sector in DataManagerText.libraryData.sectors)
+			{
+				var loc = new DataContainerTextSectorLocalization();
+				foreach (var entry in sector.Value.entries)
+				{
+					loc.entries.Add(entry.Key, entry.Value);
+				}
+				sectors.Add(sector.Key, loc);
+			}
+
+			// Any localization edits which replace text will directly change the values in the loaded text library
+			// but any edits that add new entries will need those entries copied over after this function returns.
+			PBModManager.ProcessLocalizationEdits("English", sectors);
+
+			foreach (var sector in sectors)
+			{
+				var librarySector = DataManagerText.libraryData.sectors[sector.Key];
+				foreach (var entry in sector.Value.entries)
+				{
+					if (!librarySector.entries.ContainsKey(entry.Key))
+					{
+						DataManagerText.libraryData.TryAddingText(sector.Key, entry.Key, entry.Value.text);
+					}
+				}
+			}
+
+			// Make sure the new entries get cleaned up and copied to textProcessed.
+			DataManagerText.libraryData.OnAfterDeserialization();
+
+			Debug.Log($"Mod {ModLink.modIndex} ({ModLink.modId}) patched English text library");
 		}
 
 		internal static string FindConfigKeyIfEmpty(

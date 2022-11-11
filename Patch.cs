@@ -4,9 +4,10 @@
 using HarmonyLib;
 using UnityEngine;
 
+using PBModManager = PhantomBrigade.Mods.ModManager;
+
 namespace EchKode.PBMods.Fixes
 {
-	using PBModManager = PhantomBrigade.Mods.ModManager;
 
 	[HarmonyPatch]
 	static class Patch
@@ -79,6 +80,7 @@ namespace EchKode.PBMods.Fixes
 		[HarmonyPrefix]
 		static void Hb_StartPrefix()
 		{
+			ModManager.LoadText();
 			Heartbeat.Start();
 		}
 	}

@@ -11,6 +11,7 @@ Current fixes:
 - [ModManager.ProcessFieldEdit](#modmanagerprocessfieldedit)
 - [CombatActionEvent.OnEjection](#combatactioneventonejection)
 - [CombatCollisionSystem](#combatcollisionsystem)
+- [ModManager.LoadEverything](#modmanagerloadeverything)
 
 Obsolete fixes:
 
@@ -44,6 +45,10 @@ The pilot stat `pilot_auto_combat_takedowns` records the number of enemy mechs t
 ## CombatCollisionSystem
 
 There are two fixes to this system. The first fix applies a scaling factor to the damage a projectile does to environment objects. This matches what is done when a projectile hits a unit. This mostly affects railgun projectiles. The second fix is tracking the unit that fires each projectile so when a unit's pilot ejects, credit for downing the unit can be assigned to the attacking pilot.
+
+## ModManager.LoadEverything
+
+Mods used to be able to add new English text entries through the LocalizationEdits mechanism. PB release 0.22 saw an overhaul to the localization infrastructure which unfortunately broke that. I can see a number of ways around this problem. With this fix I chose to wrap a bit of code around `ModManager.ProcessLocalizationEdits()` that gets triggered at the end of the ModManager main entry point.
 
 ## CombatLandingSystem
 

@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fixes\ModManager.cs" />
+    <Compile Include="ReplacementSystemLoader.cs" />
     <Compile Include="Systems\EkCombatTeardownSystem.cs" />
   </ItemGroup>
   <ItemGroup>

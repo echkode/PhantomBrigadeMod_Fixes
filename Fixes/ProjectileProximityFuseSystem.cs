@@ -1,49 +1,32 @@
 ﻿// Copyright (c) 2022 EchKode
 // SPDX-License-Identifier: BSD-3-Clause
 
+using System.Collections.Generic;
+
+using Entitas;
+
 using HarmonyLib;
 
 using PhantomBrigade;
 using PhantomBrigade.Data;
 using PhantomBrigade.Combat.Systems;
+using PBProjectileProximityFuseSystem = PhantomBrigade.Combat.Systems.ProjectileProximityFuseSystem;
 
-using Entitas;
 using UnityEngine;
-using System.Collections.Generic;
 
 namespace EchKode.PBMods.Fixes
 {
-	using PBProjectileProximityFuseSystem = PhantomBrigade.Combat.Systems.ProjectileProximityFuseSystem;
-
 	public class ProjectileProximityFuseSystem : PBProjectileProximityFuseSystem
 	{
 		private readonly IGroup<CombatEntity> group;
 
 		public static void Initialize()
 		{
-			Heartbeat.Systems.Add(Load);
-		}
-
-		public static void Load(GameController gameController)
-		{
-			var gcs = gameController.m_stateDict["combat"];
-			var combatSystems = gcs.m_systems[0];
-			var fi = AccessTools.Field(combatSystems.GetType(), "_executeSystems");
-			var systems = (List<IExecuteSystem>)fi.GetValue(combatSystems);
-			var idx = systems.FindIndex(sys => sys is PBProjectileProximityFuseSystem);
-			if (idx == -1)
-			{
-				return;
-			}
-
-			systems[idx] = new ProjectileProximityFuseSystem(Contexts.sharedInstance);
-			Debug.Log($"Mod {ModLink.modIndex} ({ModLink.modId}) extending {nameof(ProjectileProximityFuseSystem)}");
-
-			// XXX not sure how necessary this is since the profiler is something you generally use from within
-			// the Unity editor.
-			fi = AccessTools.Field(combatSystems.GetType(), "_executeSystemNames");
-			var names = (List<string>)fi.GetValue(combatSystems);
-			names[idx] = systems[idx].GetType().FullName;
+			Heartbeat.Systems.Add(gc =>
+				ReplacementSystemLoader.Load<PBProjectileProximityFuseSystem, ProjectileProximityFuseSystem>(
+					gc,
+					"combat",
+					contexts => new ProjectileProximityFuseSystem(contexts)));
 		}
 
 		public ProjectileProximityFuseSystem(Contexts contexts)

@@ -74,6 +74,10 @@ namespace EchKode.PBMods.Fixes
 		static void Cae_OnEjectionPostfix(CombatActionEvent.UnitPilotPair __state)
 		{
 			CombatActionEvent.OnEjectionEpilogue(__state);
+
+			// Occasionally pilotless units are left in the tab order. I suspect it happens when an enemy pilot
+			// ejects the turn after being damaged to the point that the AI will trigger an ejection.
+			CIViewCombatMode.ins.RedrawUnitTabs();
 		}
 
 		[HarmonyPatch(typeof(PhantomBrigade.Heartbeat), "Start")]

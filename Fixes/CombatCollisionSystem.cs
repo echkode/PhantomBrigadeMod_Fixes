@@ -578,10 +578,13 @@ namespace EchKode.PBMods.Fixes
 				{
 					continue;
 				}
-				if (entity.lastStrike.combatID == target && entity.lastStrike.sourceID != source)
+				if (entity.lastStrike.combatID == target)
 				{
-					Debug.Log($"Switching last strike on C-{target} to C-{source}");
-					entity.lastStrike.sourceID = source;
+					if (entity.lastStrike.sourceID != source)
+					{
+						Debug.Log($"Switching last strike on C-{target} to C-{source}");
+						entity.lastStrike.sourceID = source;
+					}
 					return;
 				}
 			}

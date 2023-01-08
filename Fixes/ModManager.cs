@@ -129,6 +129,9 @@ namespace EchKode.PBMods.Fixes
 			tagTypeMap = new Dictionary<string, Type>()
 			{
 				["PartResolverClear"] = typeof(DataBlockPartSlotResolverClear),
+				["UnitPresetLink"] = typeof(DataBlockScenarioUnitPresetLink),
+				["UnitFilter"] = typeof(DataBlockScenarioUnitFilter),
+				["SubsystemResolverKeys"] = typeof(DataBlockSubsystemSlotResolverKeys),
 			};
 
 			defaultValueMap = new Dictionary<Type, object>()
@@ -151,7 +154,8 @@ namespace EchKode.PBMods.Fixes
 				var loc = new DataContainerTextSectorLocalization();
 				foreach (var entry in sector.Value.entries)
 				{
-					loc.entries.Add(entry.Key, entry.Value);
+					var le = new DataBlockTextEntryLocalization() { text = entry.Value.text };
+					loc.entries.Add(entry.Key, le);
 				}
 				sectors.Add(sector.Key, loc);
 			}
@@ -430,7 +434,13 @@ namespace EchKode.PBMods.Fixes
 						$"Inserting new entry of type {elementType.Name} to index {index} of the list (step {spec.state.pathSegmentIndex})");
 				}
 
-				return !string.IsNullOrWhiteSpace(spec.valueRaw);
+				var nonEmptyValue = !string.IsNullOrWhiteSpace(spec.valueRaw);
+				if (nonEmptyValue && elementType != typeString && spec.valueRaw.StartsWith("!"))
+				{
+					spec.state.op = EditOperation.DefaultValue;
+				}
+
+				return nonEmptyValue;
 			}
 
 			if (spec.state.op == EditOperation.Remove)
@@ -533,7 +543,13 @@ namespace EchKode.PBMods.Fixes
 						$"Key {key} already exists, ignoring the command to add it");
 				}
 
-				return !string.IsNullOrWhiteSpace(spec.valueRaw);
+				var nonEmptyValue = !string.IsNullOrWhiteSpace(spec.valueRaw);
+				if (nonEmptyValue && valueType != typeString && spec.valueRaw.StartsWith("!"))
+				{
+					spec.state.op = EditOperation.DefaultValue;
+				}
+
+				return nonEmptyValue;
 			}
 
 			if (spec.state.op == EditOperation.Remove)
@@ -902,6 +918,10 @@ namespace EchKode.PBMods.Fixes
 			if (defaultValueMap.TryGetValue(elementType, out var value))
 			{
 				return value;
+			}
+			if (elementType.IsInterface)
+			{
+				return null;
 			}
 			return Activator.CreateInstance(elementType);
 		}

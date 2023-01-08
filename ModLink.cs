@@ -42,6 +42,7 @@ namespace EchKode.PBMods.Fixes
 			ProjectileProximityFuseSystem.Initialize();
 			ProjectileSplashDamageSystem.Initialize();
 			ECS.EkCombatTeardownSystem.Initialize();
+			AllEventPacingRules.Initialize();
 		}
 	}
 }

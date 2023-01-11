@@ -10,6 +10,7 @@ using PhantomBrigade.Overworld.Components;
 using UnityEngine;
 
 using PBModManager = PhantomBrigade.Mods.ModManager;
+using PBCIViewOverworldEvent = CIViewOverworldEvent;
 
 namespace EchKode.PBMods.Fixes
 {
@@ -90,6 +91,14 @@ namespace EchKode.PBMods.Fixes
 		static bool Aepr_ApplyPrefix(List<EventHistory.Record> history, Dictionary<string, float> chances, Dictionary<string, int> priorities)
 		{
 			AllEventPacingRules.Apply(history, chances, priorities);
+			return false;
+		}
+
+		[HarmonyPatch(typeof(PBCIViewOverworldEvent), "FadeOutEnd")]
+		[HarmonyPrefix]
+		static bool Civoe_FadeOutEndPrefix()
+		{
+			CIViewOverworldEvent.FadeOutEnd();
 			return false;
 		}
 

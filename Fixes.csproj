@@ -37,6 +37,10 @@
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\..\..\Program Files\Epic Games\PhantomAlpha\PhantomBrigade_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
+    <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Program Files\Epic Games\PhantomAlpha\PhantomBrigade_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
     <Reference Include="Entitas, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Program Files\Epic Games\PhantomAlpha\PhantomBrigade_Data\Managed\Entitas.dll</HintPath>
@@ -69,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fixes\AllEventPacingRules.cs" />
+    <Compile Include="Fixes\CIViewOverworldEvent.cs" />
     <Compile Include="Generated\EkCombat\Components\EkCombatLastStrikeComponent.cs" />
     <Compile Include="Generated\EkCombat\EkCombatComponentsLookup.cs" />
     <Compile Include="Generated\EkCombat\EkCombatAttribute.cs" />

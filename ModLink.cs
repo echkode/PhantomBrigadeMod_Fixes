@@ -4,12 +4,11 @@
 using System;
 
 using HarmonyLib;
+using PBModManager = PhantomBrigade.Mods.ModManager;
 using UnityEngine;
 
 namespace EchKode.PBMods.Fixes
 {
-	using PBModManager = PhantomBrigade.Mods.ModManager;
-
 	public class ModLink : PhantomBrigade.Mods.ModLink
 	{
 		internal static int modIndex;

@@ -129,9 +129,27 @@ namespace EchKode.PBMods.Fixes
 			tagTypeMap = new Dictionary<string, Type>()
 			{
 				["PartResolverClear"] = typeof(DataBlockPartSlotResolverClear),
-				["UnitPresetLink"] = typeof(DataBlockScenarioUnitPresetLink),
-				["UnitFilter"] = typeof(DataBlockScenarioUnitFilter),
 				["SubsystemResolverKeys"] = typeof(DataBlockSubsystemSlotResolverKeys),
+				["UnitFilter"] = typeof(DataBlockScenarioUnitFilter),
+				["UnitPresetLink"] = typeof(DataBlockScenarioUnitPresetLink),
+				["UnitPresetEmbedded"] = typeof(DataBlockScenarioUnitPresetEmbedded),
+				["UnitGroupLink"] = typeof(DataBlockScenarioUnitGroupLink),
+				["UnitGroupFilter"] = typeof(DataBlockScenarioUnitGroupFilter),
+				["UnitGroupEmbedded"] = typeof(DataBlockScenarioUnitGroupEmbedded),
+				["UnitSlotSortingEnemy"] = typeof(DataBlockScenarioSlotSortingDistanceEnemy),
+				["UnitSlotSortingLocation"] = typeof(DataBlockScenarioSlotSortingDistanceLocation),
+				["UnitSlotSortingPlayer"] = typeof(DataBlockScenarioSlotSortingDistancePlayer),
+				["UnitSlotSortingRetreat"] = typeof(DataBlockScenarioSlotSortingDistanceRetreat),
+				["UnitSlotSortingSpawn"] = typeof(DataBlockScenarioSlotSortingDistanceSpawn),
+				["UnitSlotSortingState"] = typeof(DataBlockScenarioSlotSortingDistanceState),
+				["AreaLocation"] = typeof(DataBlockAreaLocation),
+				["AreaLocationKey"] = typeof(DataBlockAreaLocationKey),
+				["AreaLocationFilter"] = typeof(DataBlockAreaLocationTagFilter),
+				["AreaLocationFromState"] = typeof(DataBlockAreaLocationFromState),
+				["AreaVolume"] = typeof(DataBlockAreaVolume),
+				["AreaVolumeKey"] = typeof(DataBlockAreaVolumeKey),
+				["AreaVolumeFilter"] = typeof(DataBlockAreaVolumeTagFilter),
+				["AreaVolumeFromState"] = typeof(DataBlockAreaVolumeFromState),
 			};
 
 			defaultValueMap = new Dictionary<Type, object>()
@@ -683,7 +701,7 @@ namespace EchKode.PBMods.Fixes
 				{
 					Report(
 						spec,
-						"attempts to edits",
+						"attempts to edit",
 						$"Integer field can't be overwritten - can't parse raw value {spec.valueRaw}");
 					return;
 				}
@@ -705,7 +723,7 @@ namespace EchKode.PBMods.Fixes
 				{
 					Report(
 						spec,
-						"attempts to edits",
+						"attempts to edit",
 						$"Float field can't be overwritten - can't parse raw value {spec.valueRaw}");
 					return;
 				}
@@ -782,7 +800,7 @@ namespace EchKode.PBMods.Fixes
 			{
 				Report(
 					spec,
-					"attempts to edits",
+					"attempts to edit",
 					$"Vector{vectorLength} field can't be overwritten - can't parse raw value {spec.valueRaw} - missing parentheses");
 				return (false, null);
 			}
@@ -793,7 +811,7 @@ namespace EchKode.PBMods.Fixes
 			{
 				Report(
 					spec,
-					"attempts to edits",
+					"attempts to edit",
 					$"Vector{vectorLength} field can't be overwritten - can't parse raw value {spec.valueRaw} - invalid number of elements");
 				return (false, null);
 			}
@@ -805,7 +823,7 @@ namespace EchKode.PBMods.Fixes
 				{
 					Report(
 						spec,
-						"attempts to edits",
+						"attempts to edit",
 						$"Vector{vectorLength} field can't be overwritten - can't parse raw value {spec.valueRaw}");
 					return (false, null);
 				}
@@ -899,8 +917,8 @@ namespace EchKode.PBMods.Fixes
 				{
 					Report(
 						spec,
-						"attempts to edits",
-						$"Enum field can't be overwritten - can't parse raw value {spec.valueRaw}");
+						"attempts to edit",
+						$"Enum field can't be overwritten - can't parse raw value | type: {targetType.Name} | value: {spec.valueRaw}");
 					return;
 				}
 				v = values.GetValue(idx);

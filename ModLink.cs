@@ -43,6 +43,7 @@ namespace EchKode.PBMods.Fixes
 			ProjectileSplashDamageSystem.Initialize();
 			ECS.EkCombatTeardownSystem.Initialize();
 			AllEventPacingRules.Initialize();
+			CombatScenarioStateSystem.Initialize();
 		}
 	}
 }

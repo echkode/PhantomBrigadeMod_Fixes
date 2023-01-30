@@ -72,7 +72,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Fixes\AllEventPacingRules.cs" />
+    <Compile Include="Obsolete\AllEventPacingRules.cs" />
     <Compile Include="Fixes\CIViewOverworldEvent.cs" />
     <Compile Include="Fixes\CombatScenarioStateSystem.cs" />
     <Compile Include="Generated\EkCombat\Components\EkCombatLastStrikeComponent.cs" />

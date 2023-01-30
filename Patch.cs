@@ -1,11 +1,7 @@
 ﻿// Copyright (c) 2022 EchKode
 // SPDX-License-Identifier: BSD-3-Clause
 
-using System.Collections.Generic;
-
 using HarmonyLib;
-
-using PhantomBrigade.Overworld.Components;
 
 using UnityEngine;
 
@@ -84,14 +80,6 @@ namespace EchKode.PBMods.Fixes
 			// Occasionally pilotless units are left in the tab order. I suspect it happens when an enemy pilot
 			// ejects the turn after being damaged to the point that the AI will trigger an ejection.
 			//CIViewCombatMode.ins.RedrawUnitTabs();
-		}
-
-		[HarmonyPatch(typeof(PhantomBrigade.Overworld.Systems.EventPacingRules.AllEventPacingRules), "Apply")]
-		[HarmonyPrefix]
-		static bool Aepr_ApplyPrefix(List<EventHistory.Record> history, Dictionary<string, float> chances, Dictionary<string, int> priorities)
-		{
-			AllEventPacingRules.Apply(history, chances, priorities);
-			return false;
 		}
 
 		[HarmonyPatch(typeof(PBCIViewOverworldEvent), "FadeOutEnd")]

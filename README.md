@@ -4,6 +4,7 @@ This is a collection of bug fixes and other corrections for [Phantom Brigade (Al
 
 Current fixes:
 
+- [BTAction_MoveToEntity.OnUpdate](#btaction_movetoentityonupdate)
 - [CombatUtilities.GetHitDirection](#combatutilitiesgethitdirection)
 - [ProjectileSplashDamageSystem](#projectilesplashdamagesystem)
 - [ProjectileProximityFuseSystem](#projectileproximityfusesystem)
@@ -16,7 +17,11 @@ Current fixes:
 Obsolete fixes:
 
 - [CombatLandingSystem](#combatlandingsystem) (patched in PB release 0.22)
+- [AllEventPacingRules](#alleventpacingrules) (patched in PB release 0.23.1)
 
+## BTAction_MoveToEntity.OnUpdate
+
+There is a missing null check that will toss a NullReferenceException when the AI agent tries to resolve its target entity. This can happen, for example, when a convoy targets a war base and that war base is destroyed before the convoy gets there. There is a concomitant problem in the load/save routines of `DataManagerSave` that will store out an empty string for a null target entity and restore an invalid ID (-99). That guarantees this exception will be thrown.
 
 ## CombatUtilities.GetHitDirection
 
@@ -54,3 +59,8 @@ Mods used to be able to add new English text entries through the LocalizationEdi
 
 _Fixed in Phantom Brigade release 0.22_<br />
 UI tabs don't always appear for the new units. A simple one-line fix to trigger a redraw of the UI tabs.
+
+## AllEventPacingRules
+
+_Fixed in Phantom Brigade patch 0.23.1-b5426_<br />
+Diagnostic logging wasn't behind a flag so Player.log was getting spammed with messages about events.

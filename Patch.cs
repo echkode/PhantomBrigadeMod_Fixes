@@ -3,10 +3,14 @@
 
 using HarmonyLib;
 
-using UnityEngine;
-
-using PBModManager = PhantomBrigade.Mods.ModManager;
+using PhantomBrigade.AIOverworld.BT;
+using PhantomBrigade.Data;
 using PBCIViewOverworldEvent = CIViewOverworldEvent;
+using PBBTAction_MoveToEntity = PhantomBrigade.AIOverworld.BT.Nodes.BTAction_MoveToEntity;
+using PBDataManagerSave = PhantomBrigade.Data.DataManagerSave;
+using PBModManager = PhantomBrigade.Mods.ModManager;
+
+using UnityEngine;
 
 namespace EchKode.PBMods.Fixes
 {
@@ -87,6 +91,24 @@ namespace EchKode.PBMods.Fixes
 		static bool Civoe_FadeOutEndPrefix()
 		{
 			CIViewOverworldEvent.FadeOutEnd();
+			return false;
+		}
+
+		[HarmonyPatch(typeof(PBDataManagerSave), "SaveAIData")]
+		[HarmonyPrefix]
+		static bool Dms_SaveAIDataPrefix(
+			OverworldEntity sourceEntity,
+			DataContainerSavedOverworldEntity targetData)
+		{
+			DataManagerSave.SaveAIData(sourceEntity, targetData);
+			return false;
+		}
+
+		[HarmonyPatch(typeof(PBBTAction_MoveToEntity), "OnUpdate")]
+		[HarmonyPrefix]
+		static bool Btamte_OnUpdatePrefix(ref BTStatus __result, PBBTAction_MoveToEntity __instance, OverworldEntity self)
+		{
+			__result = BTAction_MoveToEntity.OnUpdate(__instance, self);
 			return false;
 		}
 

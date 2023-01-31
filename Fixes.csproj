@@ -72,6 +72,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fixes\BTAction_MoveToEntity.cs" />
+    <Compile Include="Fixes\DataManagerSave.cs" />
     <Compile Include="Obsolete\AllEventPacingRules.cs" />
     <Compile Include="Fixes\CIViewOverworldEvent.cs" />
     <Compile Include="Fixes\CombatScenarioStateSystem.cs" />

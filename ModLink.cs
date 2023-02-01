@@ -42,6 +42,7 @@ namespace EchKode.PBMods.Fixes
 			ProjectileSplashDamageSystem.Initialize();
 			ECS.EkCombatTeardownSystem.Initialize();
 			CombatScenarioStateSystem.Initialize();
+			CIViewCombatMode.Initialize();
 		}
 	}
 }

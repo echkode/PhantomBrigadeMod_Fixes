@@ -3,6 +3,8 @@
 
 using System.Collections.Generic;
 
+using PBCIViewCombatMode = CIViewCombatMode;
+
 using HarmonyLib;
 
 namespace EchKode.PBMods.Fixes
@@ -25,7 +27,7 @@ namespace EchKode.PBMods.Fixes
 			{
 				return;
 			}
-			CIViewCombatMode.ins.RedrawUnitTabs();
+			PBCIViewCombatMode.ins.RedrawUnitTabs();
 		}
 	}
 }

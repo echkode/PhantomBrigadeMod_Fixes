@@ -5,6 +5,7 @@ using HarmonyLib;
 
 using PhantomBrigade.AIOverworld.BT;
 using PhantomBrigade.Data;
+using PBCIViewCombatMode = CIViewCombatMode;
 using PBCIViewOverworldEvent = CIViewOverworldEvent;
 using PBBTAction_MoveToEntity = PhantomBrigade.AIOverworld.BT.Nodes.BTAction_MoveToEntity;
 using PBDataManagerSave = PhantomBrigade.Data.DataManagerSave;
@@ -14,7 +15,6 @@ using UnityEngine;
 
 namespace EchKode.PBMods.Fixes
 {
-
 	[HarmonyPatch]
 	static class Patch
 	{
@@ -109,6 +109,14 @@ namespace EchKode.PBMods.Fixes
 		static bool Btamte_OnUpdatePrefix(ref BTStatus __result, PBBTAction_MoveToEntity __instance, OverworldEntity self)
 		{
 			__result = BTAction_MoveToEntity.OnUpdate(__instance, self);
+			return false;
+		}
+
+		[HarmonyPatch(typeof(PBCIViewCombatMode), "RedrawUnitTabs")]
+		[HarmonyPrefix]
+		static bool Civcm_RedrawUnitTabsPrefix()
+		{
+			CIViewCombatMode.RedrawUnitTabs();
 			return false;
 		}
 

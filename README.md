@@ -4,6 +4,7 @@ This is a collection of bug fixes and other corrections for [Phantom Brigade (Al
 
 Current fixes:
 
+- [CIViewCombatMode.RedrawUnitTabs](#civiewcombatmoderedrawunittabs)
 - [BTAction_MoveToEntity.OnUpdate](#btaction_movetoentityonupdate)
 - [CombatUtilities.GetHitDirection](#combatutilitiesgethitdirection)
 - [ProjectileSplashDamageSystem](#projectilesplashdamagesystem)
@@ -18,6 +19,10 @@ Obsolete fixes:
 
 - [CombatLandingSystem](#combatlandingsystem) (patched in PB release 0.22)
 - [AllEventPacingRules](#alleventpacingrules) (patched in PB release 0.23.1)
+
+## CIViewCombatMode.RedrawUnitTabs
+
+The unit tab and selection order in combat for the player's units doesn't match what they might have set up in the briefing or squad views. Instead, it follows the order as seen in the unit loadout view. If a player has shuffled the order of their units for a particular combat session, the tab/selection order should respect that choice.
 
 ## BTAction_MoveToEntity.OnUpdate
 

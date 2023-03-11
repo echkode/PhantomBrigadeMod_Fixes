@@ -126,31 +126,30 @@ namespace EchKode.PBMods.Fixes
 				[typeEnum] = UpdateEnum,
 			};
 
-			tagTypeMap = new Dictionary<string, Type>()
+			var t = Traverse.Create(typeof(UtilitiesYAML));
+			var uytm = t.Field<Dictionary<string, Type>>("tagMappings").Value;
+			if (uytm == null)
 			{
-				["PartResolverClear"] = typeof(DataBlockPartSlotResolverClear),
-				["SubsystemResolverKeys"] = typeof(DataBlockSubsystemSlotResolverKeys),
-				["UnitFilter"] = typeof(DataBlockScenarioUnitFilter),
-				["UnitPresetLink"] = typeof(DataBlockScenarioUnitPresetLink),
-				["UnitPresetEmbedded"] = typeof(DataBlockScenarioUnitPresetEmbedded),
-				["UnitGroupLink"] = typeof(DataBlockScenarioUnitGroupLink),
-				["UnitGroupFilter"] = typeof(DataBlockScenarioUnitGroupFilter),
-				["UnitGroupEmbedded"] = typeof(DataBlockScenarioUnitGroupEmbedded),
-				["UnitSlotSortingEnemy"] = typeof(DataBlockScenarioSlotSortingDistanceEnemy),
-				["UnitSlotSortingLocation"] = typeof(DataBlockScenarioSlotSortingDistanceLocation),
-				["UnitSlotSortingPlayer"] = typeof(DataBlockScenarioSlotSortingDistancePlayer),
-				["UnitSlotSortingRetreat"] = typeof(DataBlockScenarioSlotSortingDistanceRetreat),
-				["UnitSlotSortingSpawn"] = typeof(DataBlockScenarioSlotSortingDistanceSpawn),
-				["UnitSlotSortingState"] = typeof(DataBlockScenarioSlotSortingDistanceState),
-				["AreaLocation"] = typeof(DataBlockAreaLocation),
-				["AreaLocationKey"] = typeof(DataBlockAreaLocationKey),
-				["AreaLocationFilter"] = typeof(DataBlockAreaLocationTagFilter),
-				["AreaLocationFromState"] = typeof(DataBlockAreaLocationFromState),
-				["AreaVolume"] = typeof(DataBlockAreaVolume),
-				["AreaVolumeKey"] = typeof(DataBlockAreaVolumeKey),
-				["AreaVolumeFilter"] = typeof(DataBlockAreaVolumeTagFilter),
-				["AreaVolumeFromState"] = typeof(DataBlockAreaVolumeFromState),
-			};
+				var fi = AccessTools.DeclaredMethod(typeof(UtilitiesYAML), "LoadTagMappings");
+				if (fi != null)
+				{
+					fi.Invoke(null, new object[] { });
+					uytm = t.Field<Dictionary<string, Type>>("tagMappings").Value;
+				}
+			}
+
+			tagTypeMap = uytm ?? new Dictionary<string, Type>();
+			var mappings = new List<string>();
+			foreach (var kvp in tagTypeMap)
+			{
+				mappings.Add(kvp.Key + ": " + kvp.Value.Name);
+			}
+			Debug.LogFormat(
+				"Mod {0} ({1}) YAML tags ({2}):\n  {3}",
+				ModLink.modIndex,
+				ModLink.modId,
+				mappings.Count,
+				string.Join("\n  ", mappings));
 
 			defaultValueMap = new Dictionary<Type, object>()
 			{
@@ -265,7 +264,7 @@ namespace EchKode.PBMods.Fixes
 			{
 				if (spec.state.targetType.IsValueType)
 				{
-					Report(
+					ReportWarning(
 						spec,
 						"attempts to edit",
 						$"Value type {spec.state.targetType.Name} cannot be set to null");
@@ -288,10 +287,46 @@ namespace EchKode.PBMods.Fixes
 
 			if (spec.state.op != EditOperation.DefaultValue)
 			{
-				Report(
+				ReportWarning(
 					spec,
 					"attempts to edit",
 					$"Value type {spec.state.targetType.Name} has no string parsing implementation - try using {Constants.Operator.DefaultValue} keyword if you're after filling it with default instance");
+				return;
+			}
+
+			var instanceType = spec.state.targetType;
+			var isTag = valueRaw.StartsWith("!");
+			if (isTag && spec.state.targetType.IsInterface)
+			{
+				if (!tagTypeMap.TryGetValue(valueRaw, out instanceType))
+				{
+					ReportWarning(
+						spec,
+						"attempts to edit",
+						$"There is no type associated with tag {valueRaw}");
+					return;
+				}
+			}
+
+			if (spec.state.targetIndex != -1)
+			{
+				var list = (IList)spec.state.parent;
+				list[spec.state.targetIndex] = Activator.CreateInstance(instanceType);
+				Report(
+					spec,
+					"edits",
+					$"Assigning new default object of type {instanceType.Name} to target index {spec.state.targetIndex}");
+				return;
+			}
+
+			if (spec.state.targetKey != null)
+			{
+				var map = (IDictionary)spec.state.parent;
+				map[spec.state.targetKey] = Activator.CreateInstance(instanceType);
+				Report(
+					spec,
+					"edits",
+					$"Assigning new default object of type {instanceType.Name} to target key {spec.state.targetKey}");
 				return;
 			}
 
@@ -299,24 +334,21 @@ namespace EchKode.PBMods.Fixes
 			{
 				var parentType = spec.state.parent?.GetType().Name ?? "null";
 				var targetType = spec.state.target?.GetType().Name ?? "null";
-				Report(
+				ReportWarning(
 					spec,
 					"attempts to edit",
-					$"WalkFieldPath() failed to terminate properly <segment={spec.state.pathSegment};segmentIndex={spec.state.pathSegmentIndex};segmentCount={spec.state.pathSegmentCount};atEnd={spec.state.atEndOfPath};op={spec.state.op};parent={parentType};target={targetType};targetType={spec.state.targetType};targetIndex={spec.state.targetIndex};targetKey={spec.state.targetKey}>");
+					"no target field info -- WalkFieldPath() failed to terminate properly"
+						+ $" | segment: {spec.state.pathSegment}"
+						+ $" | segmentIndex: {spec.state.pathSegmentIndex}"
+						+ $" | segmentCount: {spec.state.pathSegmentCount}"
+						+ $" | atEnd: {spec.state.atEndOfPath}"
+						+ $" | op: {spec.state.op}"
+						+ $" | parent: {parentType}"
+						+ $" | target: {targetType}"
+						+ $" | targetType: {spec.state.targetType}"
+						+ $" | targetIndex: {spec.state.targetIndex}"
+						+ $" | targetKey: {spec.state.targetKey}");
 				return;
-			}
-
-			var instanceType = spec.state.targetType;
-			if (valueRaw.StartsWith("!"))
-			{
-				if (!tagTypeMap.TryGetValue(valueRaw.Substring(1), out instanceType))
-				{
-					Report(
-						spec,
-						"attempts to edit",
-						$"There is no type associated with tag {valueRaw}");
-					return;
-				}
 			}
 
 			var instance = Activator.CreateInstance(instanceType);
@@ -353,7 +385,7 @@ namespace EchKode.PBMods.Fixes
 
 				if (spec.state.target == null)
 				{
-					Report(
+					ReportWarning(
 						spec,
 						"attempts to edit",
 						$"Can't proceed past {spec.state.pathSegment} (step {spec.state.pathSegmentIndex}), current target reference is null");
@@ -390,7 +422,7 @@ namespace EchKode.PBMods.Fixes
 			var list = spec.state.target as IList;
 			if (!int.TryParse(spec.state.pathSegment, NumberStyles.Integer, CultureInfo.InvariantCulture, out var result) || result < 0)
 			{
-				Report(
+				ReportWarning(
 					spec,
 					"attempts to edit",
 					$"Index {spec.state.pathSegment} (step {spec.state.pathSegmentIndex}) can't be parsed or is negative");
@@ -407,7 +439,7 @@ namespace EchKode.PBMods.Fixes
 			}
 			else if (result >= list.Count)
 			{
-				Report(
+				ReportWarning(
 					spec,
 					"attempts to edit",
 					$"Can't proceed past {spec.state.pathSegment} (step {spec.state.pathSegmentIndex}), current target reference is beyond end of list (size={list.Count})");
@@ -453,7 +485,8 @@ namespace EchKode.PBMods.Fixes
 				}
 
 				var nonEmptyValue = !string.IsNullOrWhiteSpace(spec.valueRaw);
-				if (nonEmptyValue && elementType != typeString && spec.valueRaw.StartsWith("!"))
+				var isTag = nonEmptyValue && elementType != typeString && spec.valueRaw.StartsWith("!");
+				if (isTag)
 				{
 					spec.state.op = EditOperation.DefaultValue;
 				}
@@ -465,7 +498,7 @@ namespace EchKode.PBMods.Fixes
 			{
 				if (outOfBounds)
 				{
-					Report(
+					ReportWarning(
 						spec,
 						"attempts to edit",
 						$"Index {spec.state.pathSegment} (step {spec.state.pathSegmentIndex}) can't be removed as it's out of bounds for list size {list.Count}");
@@ -508,7 +541,7 @@ namespace EchKode.PBMods.Fixes
 			}
 			else if (!entryExists)
 			{
-				Report(
+				ReportWarning(
 					spec,
 					"attempts to edit",
 					$"Can't proceed past {spec.state.pathSegment} (step {spec.state.pathSegmentIndex}), current target reference doesn't exist in dictionary)");
@@ -562,7 +595,8 @@ namespace EchKode.PBMods.Fixes
 				}
 
 				var nonEmptyValue = !string.IsNullOrWhiteSpace(spec.valueRaw);
-				if (nonEmptyValue && valueType != typeString && spec.valueRaw.StartsWith("!"))
+				var isTag = nonEmptyValue && valueType != typeString && spec.valueRaw.StartsWith("!");
+				if (isTag)
 				{
 					spec.state.op = EditOperation.DefaultValue;
 				}
@@ -574,7 +608,7 @@ namespace EchKode.PBMods.Fixes
 			{
 				if (!entryExists)
 				{
-					Report(
+					ReportWarning(
 						spec,
 						"attempts to edit",
 						$"Key {key} (step {spec.state.pathSegmentIndex}) can't be removed from target dictionary - it can't be found");
@@ -597,7 +631,7 @@ namespace EchKode.PBMods.Fixes
 			var field = spec.state.targetType.GetField(spec.state.pathSegment);
 			if (field == null)
 			{
-				Report(
+				ReportWarning(
 					spec,
 					"attempts to edit",
 					$"Field {spec.state.pathSegment} (step {spec.state.pathSegmentIndex}) could not be found on type {spec.state.targetType}");
@@ -622,7 +656,7 @@ namespace EchKode.PBMods.Fixes
 			{
 				if (spec.state.targetIndex == -1)
 				{
-					Report(
+					ReportWarning(
 						spec,
 						"attempts to edit",
 						$"Value is contained in a list but list index {spec.state.pathSegment} is not valid");
@@ -639,7 +673,7 @@ namespace EchKode.PBMods.Fixes
 			{
 				if (spec.state.targetKey == null)
 				{
-					Report(
+					ReportWarning(
 						spec,
 						"attempts to edit",
 						$"Value is contained in a dictionary but the key {spec.state.pathSegment} is not valid");
@@ -653,7 +687,7 @@ namespace EchKode.PBMods.Fixes
 
 			if (spec.state.fieldInfo == null)
 			{
-				Report(
+				ReportWarning(
 					spec,
 					"attempts to edit",
 					$"Value can't be modified due to missing field info");
@@ -699,7 +733,7 @@ namespace EchKode.PBMods.Fixes
 			{
 				if (!int.TryParse(spec.valueRaw, NumberStyles.Integer, CultureInfo.InvariantCulture, out v))
 				{
-					Report(
+					ReportWarning(
 						spec,
 						"attempts to edit",
 						$"Integer field can't be overwritten - can't parse raw value {spec.valueRaw}");
@@ -721,7 +755,7 @@ namespace EchKode.PBMods.Fixes
 			{
 				if (!float.TryParse(spec.valueRaw, NumberStyles.Float, CultureInfo.InvariantCulture, out v))
 				{
-					Report(
+					ReportWarning(
 						spec,
 						"attempts to edit",
 						$"Float field can't be overwritten - can't parse raw value {spec.valueRaw}");
@@ -798,7 +832,7 @@ namespace EchKode.PBMods.Fixes
 		{
 			if (!spec.valueRaw.StartsWith("(") || !spec.valueRaw.EndsWith(")"))
 			{
-				Report(
+				ReportWarning(
 					spec,
 					"attempts to edit",
 					$"Vector{vectorLength} field can't be overwritten - can't parse raw value {spec.valueRaw} - missing parentheses");
@@ -809,7 +843,7 @@ namespace EchKode.PBMods.Fixes
 			var velems = valueRaw.Split(',');
 			if (velems.Length != vectorLength)
 			{
-				Report(
+				ReportWarning(
 					spec,
 					"attempts to edit",
 					$"Vector{vectorLength} field can't be overwritten - can't parse raw value {spec.valueRaw} - invalid number of elements");
@@ -821,7 +855,7 @@ namespace EchKode.PBMods.Fixes
 			{
 				if (!float.TryParse(velems[i], NumberStyles.Float, CultureInfo.InvariantCulture, out var result))
 				{
-					Report(
+					ReportWarning(
 						spec,
 						"attempts to edit",
 						$"Vector{vectorLength} field can't be overwritten - can't parse raw value {spec.valueRaw}");
@@ -837,7 +871,7 @@ namespace EchKode.PBMods.Fixes
 		{
 			if (!allowedHashSetOperations.Contains(spec.state.op))
 			{
-				Report(
+				ReportWarning(
 					spec,
 					"attempts to edit",
 					"No addition or removal keywords detected - no other operations are supported on hashsets");
@@ -848,7 +882,7 @@ namespace EchKode.PBMods.Fixes
 			{
 				if (spec.state.target != null)
 				{
-					Report(
+					ReportWarning(
 						spec,
 						"attempts to edit",
 						"Hashset exists -- cannot replace with default value");
@@ -915,7 +949,7 @@ namespace EchKode.PBMods.Fixes
 				var idx = Array.FindIndex(names, name => string.CompareOrdinal(name, spec.valueRaw) == 0);
 				if (idx == -1)
 				{
-					Report(
+					ReportWarning(
 						spec,
 						"attempts to edit",
 						$"Enum field can't be overwritten - can't parse raw value | type: {targetType.Name} | value: {spec.valueRaw}");
@@ -946,7 +980,28 @@ namespace EchKode.PBMods.Fixes
 
 		private static void Report(EditSpec spec, string verb, string msg)
 		{
-			Debug.LogWarning($"Mod {spec.i} ({spec.modID}) {verb} config {spec.filename} of type {spec.dataTypeName}, field {spec.fieldPath} | {msg}");
+			Debug.LogFormat(
+				"Mod {0} ({1}) {2} config {3} of type {4}, field {5} | {6}",
+				spec.i,
+				spec.modID,
+				verb,
+				spec.filename,
+				spec.dataTypeName,
+				spec.fieldPath,
+				msg);
+		}
+
+		private static void ReportWarning(EditSpec spec, string verb, string msg)
+		{
+			Debug.LogWarningFormat(
+				"Mod {0} ({1}) {2} config {3} of type {4}, field {5} | {6}",
+				spec.i,
+				spec.modID,
+				verb,
+				spec.filename,
+				spec.dataTypeName,
+				spec.fieldPath,
+				msg);
 		}
 	}
 }

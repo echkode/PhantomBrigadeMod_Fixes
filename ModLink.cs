@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace EchKode.PBMods.Fixes
 {
-	public class ModLink : PhantomBrigade.Mods.ModLink
+	public partial class ModLink : PhantomBrigade.Mods.ModLink
 	{
 		internal static int modIndex;
 		internal static string modId;
@@ -36,13 +36,7 @@ namespace EchKode.PBMods.Fixes
 				FileLog.Log("!!! PBMods patches applied");
 			}
 
-			ModManager.Initialize();
-			CombatCollisionSystem.Initialize();
-			ProjectileProximityFuseSystem.Initialize();
-			ProjectileSplashDamageSystem.Initialize();
-			ECS.EkCombatTeardownSystem.Initialize();
-			CombatScenarioStateSystem.Initialize();
-			CIViewCombatMode.Initialize();
+			Initialize();
 		}
 	}
 }

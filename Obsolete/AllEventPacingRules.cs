@@ -51,11 +51,12 @@ namespace EchKode.PBMods.Fixes
 				{
 					rule.Apply(history, chances, priorities);
 				}
-				if (DataShortcuts.overworld.logEventEvaluationOverTime)
-				{
-					LogHistory(history);
-					LogChances(chances);
-				}
+				// Removed in 1.0.4
+				//if (DataShortcuts.overworld.logEventEvaluationOverTime)
+				//{
+				//	LogHistory(history);
+				//	LogChances(chances);
+				//}
 			}
 			catch (System.NullReferenceException)
 			{

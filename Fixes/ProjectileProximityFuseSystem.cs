@@ -25,7 +25,7 @@ namespace EchKode.PBMods.Fixes
 			Heartbeat.Systems.Add(gc =>
 				ReplacementSystemLoader.Load<PBProjectileProximityFuseSystem, ProjectileProximityFuseSystem>(
 					gc,
-					"combat",
+					GameStates.combat,
 					contexts => new ProjectileProximityFuseSystem(contexts)));
 		}
 

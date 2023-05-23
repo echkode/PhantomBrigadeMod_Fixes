@@ -20,7 +20,7 @@ namespace EchKode.PBMods.Fixes
 			Heartbeat.Systems.Add(gc =>
 				ReplacementSystemLoader.Load<PBCombatScenarioStateSystem, CombatScenarioStateSystem>(
 					gc,
-					"combat",
+					GameStates.combat,
 					contexts => new CombatScenarioStateSystem(contexts)));
 		}
 
@@ -51,7 +51,7 @@ namespace EchKode.PBMods.Fixes
 		{
 			var contexts = (ScenarioStateRefreshContext)combat.scenarioStateRefresh.contexts;
 			combat.RemoveScenarioStateRefresh();
-			if (!IDUtility.IsGameState("combat"))
+			if (!IDUtility.IsGameState(GameStates.combat))
 			{
 				return;
 			}

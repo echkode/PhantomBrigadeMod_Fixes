@@ -26,7 +26,7 @@ namespace EchKode.PBMods.Fixes
 			Heartbeat.Systems.Add(gc =>
 				ReplacementSystemLoader.Load<PBProjectileSplashDamageSystem, ProjectileSplashDamageSystem>(
 					gc,
-					"combat",
+					GameStates.combat,
 					contexts => new ProjectileSplashDamageSystem(contexts)));
 		}
 

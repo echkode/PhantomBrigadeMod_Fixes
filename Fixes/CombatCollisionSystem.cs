@@ -20,7 +20,7 @@ namespace EchKode.PBMods.Fixes
 			Heartbeat.Systems.Add(gc =>
 				ReplacementSystemLoader.Load<PBCombatCollisionSystem, CombatCollisionSystem>(
 					gc,
-					"combat",
+					GameStates.combat,
 					contexts => new CombatCollisionSystem(contexts, ECS.Contexts.sharedInstance.ekCombat)));
 		}
 

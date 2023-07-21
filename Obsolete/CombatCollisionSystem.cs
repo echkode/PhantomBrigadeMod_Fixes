@@ -151,7 +151,7 @@ namespace EchKode.PBMods.Fixes
 				if (subsystemProjectile?.visual?.impact != null)
 				{
 					var impact = subsystemProjectile.visual.impact;
-					var key = !impact.factionUsed || isFriendly ? impact.key : impact.keyEnemy;
+					var key = isFriendly || string.IsNullOrEmpty(impact.keyEnemy) ? impact.key : impact.keyEnemy;
 					if (!string.IsNullOrEmpty(key))
 					{
 						var position = collisionEvent.collisionContactPoint.position;
@@ -294,7 +294,7 @@ namespace EchKode.PBMods.Fixes
 			if (subsystemProjectile?.visual?.impact != null)
 			{
 				var impact = subsystemProjectile.visual.impact;
-				var key = !impact.factionUsed || isFriendly ? impact.key : impact.keyEnemy;
+				var key = isFriendly || string.IsNullOrEmpty(impact.keyEnemy) ? impact.key : impact.keyEnemy;
 				if (!string.IsNullOrEmpty(key))
 				{
 					var position = collisionEvent.collisionContactPoint.position;
@@ -461,7 +461,7 @@ namespace EchKode.PBMods.Fixes
 			if (subsystemProjectile?.visual?.impact != null)
 			{
 				var impact = subsystemProjectile.visual.impact;
-				var key = !impact.factionUsed || isFriendly ? impact.key : impact.keyEnemy;
+				var key = isFriendly || string.IsNullOrEmpty(impact.keyEnemy) ? impact.key : impact.keyEnemy;
 				if (!string.IsNullOrEmpty(key))
 				{
 					var position = collisionEvent.collisionContactPoint.position;

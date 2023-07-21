@@ -93,7 +93,10 @@ namespace EchKode.PBMods.Fixes
 				if (DataShortcuts.sim.logProjectileStatus)
 				{
 					Debug.DrawLine(position, targetPosition, Color.yellow, 10f);
-					Debug.LogWarning($"Destroying projectile {projectile.ToLog()} due to proximity fuse triggering at distance {distance}");
+					Debug.LogWarningFormat(
+						"Destroying projectile {0} due to proximity fuse triggering at distance {1}",
+						projectile.ToLog(),
+						distance);
 				}
 				projectile.isProjectileProximityFuse = false;
 				projectile.TriggerProjectile();

@@ -8,6 +8,16 @@ using UnityEngine;
 
 namespace EchKode.PBMods.Fixes
 {
+	// Code for Patch class:
+	//
+	//[HarmonyPatch(typeof(PBBTAction_MoveToEntity), "OnUpdate")]
+	//[HarmonyPrefix]
+	//static bool Btamte_OnUpdatePrefix(ref BTStatus __result, PBBTAction_MoveToEntity __instance, OverworldEntity self)
+	//{
+	//	__result = BTAction_MoveToEntity.OnUpdate(__instance, self);
+	//	return false;
+	//}
+
 	static class BTAction_MoveToEntity
 	{
 		internal static BTStatus OnUpdate(PBBTAction_MoveToEntity inst, OverworldEntity self)

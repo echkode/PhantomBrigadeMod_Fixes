@@ -33,6 +33,7 @@ namespace EchKode.PBMods.Fixes
 			ltDescr.setEase(LeanTweenType.easeInSine);
 			ltDescr.setIgnoreTimeScale(true);
 			ltDescr.setOnUpdate(FadeInAnim);
+			// original: was setting on-complete action to FadeInEnd which messes with the button states.
 			PBCIViewOverworldEvent.ins.TryEntryToStep(eventKeyCached.Value, stepKeyCached.Value);
 		}
 	}

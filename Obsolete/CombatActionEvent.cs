@@ -8,6 +8,25 @@ using UnityEngine;
 
 namespace EchKode.PBMods.Fixes
 {
+	// Code for Patch class:
+	//
+	//[HarmonyPatch(typeof(PhantomBrigade.Combat.CombatActionEvent), "OnEjection")]
+	//[HarmonyPrefix]
+	//static void Cae_OnEjectionPrefix(CombatEntity unitCombat, out CombatActionEvent.UnitPilotPair __state)
+	//{
+	//	CombatActionEvent.OnEjectionPrologue(unitCombat, out __state);
+	//}
+	//
+	//[HarmonyPatch(typeof(PhantomBrigade.Combat.CombatActionEvent), "OnEjection")]
+	//[HarmonyPostfix]
+	//static void Cae_OnEjectionPostfix(CombatActionEvent.UnitPilotPair __state)
+	//{
+	//	CombatActionEvent.OnEjectionEpilogue(__state);
+		// Occasionally pilotless units are left in the tab order. I suspect it happens when an enemy pilot
+		// ejects the turn after being damaged to the point that the AI will trigger an ejection.
+		//CIViewCombatMode.ins.RedrawUnitTabs();
+	//}
+
 	internal static class CombatActionEvent
 	{
 		internal sealed class UnitPilotPair
@@ -18,7 +37,7 @@ namespace EchKode.PBMods.Fixes
 
 		internal static void OnEjectionPrologue(CombatEntity combatant, out UnitPilotPair pair)
 		{
-			Debug.Log($"Pilot ejecting for unit C-{combatant.id.id}");
+			Debug.LogFormat("Pilot ejecting for unit C-{0}", combatant.id.id);
 			var unit = IDUtility.GetLinkedPersistentEntity(combatant);
 			var pilot = IDUtility.GetLinkedPilot(unit);
 			pair = new UnitPilotPair()
@@ -36,7 +55,7 @@ namespace EchKode.PBMods.Fixes
 				return;
 			}
 
-			Debug.Log($"Handling credit for ejecting pilot from C-{pair.CombatID}");
+			Debug.LogFormat("Handling credit for ejecting pilot from C-{0}", pair.CombatID);
 			foreach (var entity in ECS.Contexts.sharedInstance.ekCombat.GetEntities())
 			{
 				if (!entity.hasLastStrike)
@@ -67,11 +86,14 @@ namespace EchKode.PBMods.Fixes
 				if (pilot == null)
 				{
 					var unitID = sourceUnit?.ToLog() ?? "<unknown>";
-					Debug.Log($"Unable to locate entity for pilot of unit {unitID}");
+					Debug.LogFormat("Unable to locate entity for pilot of unit {0}", unitID);
 					return;
 				}
 
-				Debug.Log($"CombatActionEvent | OnEjection -- crediting pilot {pilot.ToLog()} with forced ejection of pilot {ejectedPilot.ToLog()}");
+				Debug.LogFormat(
+					"CombatActionEvent | OnEjection -- crediting pilot {0} with forced ejection of pilot {1}",
+					pilot.ToLog(),
+					ejectedPilot.ToLog());
 				pilot.IncrementMemory("pilot_auto_combat_takedowns");
 				return;
 			}

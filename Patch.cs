@@ -3,13 +3,12 @@
 
 using HarmonyLib;
 
-using PhantomBrigade.AIOverworld.BT;
 using PhantomBrigade.Data;
 using PBCIViewCombatMode = CIViewCombatMode;
 using PBCIViewOverworldEvent = CIViewOverworldEvent;
-using PBBTAction_MoveToEntity = PhantomBrigade.AIOverworld.BT.Nodes.BTAction_MoveToEntity;
+using PBCombatScenarioSetupSystem = PhantomBrigade.Combat.Systems.CombatScenarioSetupSystem;
 using PBDataManagerSave = PhantomBrigade.Data.DataManagerSave;
-using PBModManager = PhantomBrigade.Mods.ModManager;
+using PBModUtilities = PhantomBrigade.Mods.ModUtilities;
 
 using UnityEngine;
 
@@ -37,7 +36,7 @@ namespace EchKode.PBMods.Fixes
 			__result = Screenshot.GetProjectPath();
 		}
 
-		[HarmonyPatch(typeof(PBModManager), "ProcessFieldEdit")]
+		[HarmonyPatch(typeof(PBModUtilities), "ProcessFieldEdit", new System.Type[] { typeof(object), typeof(string), typeof(string), typeof(string), typeof(int), typeof(string), typeof(string) })]
 		[HarmonyPrefix]
 		static bool Mm_ProcessFieldEditPrefix(
 			object target,
@@ -68,24 +67,6 @@ namespace EchKode.PBMods.Fixes
 			return false;
 		}
 
-		[HarmonyPatch(typeof(PhantomBrigade.Combat.CombatActionEvent), "OnEjection")]
-		[HarmonyPrefix]
-		static void Cae_OnEjectionPrefix(CombatEntity unitCombat, out CombatActionEvent.UnitPilotPair __state)
-		{
-			CombatActionEvent.OnEjectionPrologue(unitCombat, out __state);
-		}
-
-		[HarmonyPatch(typeof(PhantomBrigade.Combat.CombatActionEvent), "OnEjection")]
-		[HarmonyPostfix]
-		static void Cae_OnEjectionPostfix(CombatActionEvent.UnitPilotPair __state)
-		{
-			CombatActionEvent.OnEjectionEpilogue(__state);
-
-			// Occasionally pilotless units are left in the tab order. I suspect it happens when an enemy pilot
-			// ejects the turn after being damaged to the point that the AI will trigger an ejection.
-			//CIViewCombatMode.ins.RedrawUnitTabs();
-		}
-
 		[HarmonyPatch(typeof(PBCIViewOverworldEvent), "FadeOutEnd")]
 		[HarmonyPrefix]
 		static bool Civoe_FadeOutEndPrefix()
@@ -104,20 +85,27 @@ namespace EchKode.PBMods.Fixes
 			return false;
 		}
 
-		[HarmonyPatch(typeof(PBBTAction_MoveToEntity), "OnUpdate")]
-		[HarmonyPrefix]
-		static bool Btamte_OnUpdatePrefix(ref BTStatus __result, PBBTAction_MoveToEntity __instance, OverworldEntity self)
-		{
-			__result = BTAction_MoveToEntity.OnUpdate(__instance, self);
-			return false;
-		}
-
 		[HarmonyPatch(typeof(PBCIViewCombatMode), "RedrawUnitTabs")]
 		[HarmonyPrefix]
 		static bool Civcm_RedrawUnitTabsPrefix()
 		{
 			CIViewCombatMode.RedrawUnitTabs();
 			return false;
+		}
+
+		[HarmonyPatch(typeof(PBCombatScenarioSetupSystem), "DeployUnitsForPlayer")]
+		[HarmonyPrefix]
+		static bool Csss_DeployUnitsForPlayer(
+			PBCombatScenarioSetupSystem __instance,
+			DataContainerScenario scenario,
+			DataContainerCombatArea area,
+			PersistentEntity unitHostPersistent)
+		{
+			return CombatScenarioSetupSystem.DeployUnitsForPlayer(
+				__instance,
+				scenario,
+				area,
+				unitHostPersistent);
 		}
 
 		[HarmonyPatch(typeof(PhantomBrigade.Heartbeat), "Start")]

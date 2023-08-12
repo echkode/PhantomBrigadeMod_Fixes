@@ -5,11 +5,8 @@ This is a collection of bug fixes and other corrections for [Phantom Brigade (Al
 Current fixes:
 
 - [CIViewCombatMode.RedrawUnitTabs](#civiewcombatmoderedrawunittabs)
-- [BTAction_MoveToEntity.OnUpdate](#btaction_movetoentityonupdate)
 - [CombatUtilities.GetHitDirection](#combatutilitiesgethitdirection)
-- [ProjectileSplashDamageSystem](#projectilesplashdamagesystem)
 - [ProjectileProximityFuseSystem](#projectileproximityfusesystem)
-- [CaptureWithAlpha.GetProjectPath](#capturewithalphagetprojectpath)
 - [ModManager.ProcessFieldEdit](#modmanagerprocessfieldedit)
 - [CombatActionEvent.OnEjection](#combatactioneventonejection)
 - [CombatCollisionSystem](#combatcollisionsystem)
@@ -19,6 +16,9 @@ Obsolete fixes:
 
 - [CombatLandingSystem](#combatlandingsystem) (patched in PB release 0.22)
 - [AllEventPacingRules](#alleventpacingrules) (patched in PB release 0.23.1)
+- [BTAction_MoveToEntity.OnUpdate](#btaction_movetoentityonupdate)
+- [CaptureWithAlpha.GetProjectPath](#capturewithalphagetprojectpath)
+- [ProjectileSplashDamageSystem](#projectilesplashdamagesystem)
 
 ## CIViewCombatMode.RedrawUnitTabs
 

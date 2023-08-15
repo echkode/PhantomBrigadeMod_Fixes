@@ -1,71 +1,35 @@
 # Fixes
 
-This is a collection of bug fixes and other corrections for [Phantom Brigade (Alpha)](https://braceyourselfgames.com/phantom-brigade/). This is not a mod in the traditional sense of an extension to the game that adds a feature or brings in new content and I do not recommend using it as a mod. Rather, it's more akin to a working journal of solutions to problems I've discovered while going through the disassembly of the game.
+This is a collection of bug fixes and other corrections for [Phantom Brigade](https://braceyourselfgames.com/phantom-brigade/). This is not a mod in the traditional sense of an extension to the game that adds a feature or brings in new content. Instead, this is a collection of spot fixes to small bugs I've found in the code as I've been researching and developing other mods.
 
-Current fixes:
+These fixes are for release version **1.1.2**.
 
-- [CIViewCombatMode.RedrawUnitTabs](#civiewcombatmoderedrawunittabs)
-- [CombatUtilities.GetHitDirection](#combatutilitiesgethitdirection)
+Each fix is its own project so that you can compile and install just that fix separate from all the others.
+
+List of fixes:
+
+- [CIViewOverworldEvent.FadeOutEnd](#civiewoverworldeventfadeoutend)
+- [CombatUnitDamageEvent.Run](#combatunitdamageeventrun)
+- [DataManagerSave.SaveAIData](#datamanagersavesaveaidata)
+- [OverlapUtility.OnAreaOfEffectAgainstUnits](#overlaputilityonareaofeffectagainstunits)
 - [ProjectileProximityFuseSystem](#projectileproximityfusesystem)
-- [ModManager.ProcessFieldEdit](#modmanagerprocessfieldedit)
-- [CombatActionEvent.OnEjection](#combatactioneventonejection)
-- [CombatCollisionSystem](#combatcollisionsystem)
-- [ModManager.LoadEverything](#modmanagerloadeverything)
 
-Obsolete fixes:
+## CIViewOverworldEvent.FadeOutEnd
 
-- [CombatLandingSystem](#combatlandingsystem) (patched in PB release 0.22)
-- [AllEventPacingRules](#alleventpacingrules) (patched in PB release 0.23.1)
-- [BTAction_MoveToEntity.OnUpdate](#btaction_movetoentityonupdate)
-- [CaptureWithAlpha.GetProjectPath](#capturewithalphagetprojectpath)
-- [ProjectileSplashDamageSystem](#projectilesplashdamagesystem)
+The FadeOutEnd() method was setting FadeInEnd as an on-complete action which would reset some of the button states in the event dialog so that they would appear even if they shouldn't.
 
-## CIViewCombatMode.RedrawUnitTabs
+## CombatUnitDamageEvent.Run
 
-The unit tab and selection order in combat for the player's units doesn't match what they might have set up in the briefing or squad views. Instead, it follows the order as seen in the unit loadout view. If a player has shuffled the order of their units for a particular combat session, the tab/selection order should respect that choice.
+Inflicted heat and stagger damage was getting assigned to inflicted concussion damage. The fix puts the right amount in each of the damage categories.
 
-## BTAction_MoveToEntity.OnUpdate
+## DataManagerSave.SaveAIData
 
-There is a missing null check that will toss a NullReferenceException when the AI agent tries to resolve its target entity. This can happen, for example, when a convoy targets a war base and that war base is destroyed before the convoy gets there. There is a concomitant problem in the load/save routines of `DataManagerSave` that will store out an empty string for a null target entity and restore an invalid ID (-99). That guarantees this exception will be thrown.
+Empty names were being serialized out for overworld entities which could cause trouble when the saved game was loaded again. Best to skip these nameless overworld entities.
 
-## CombatUtilities.GetHitDirection
+## OverlapUtility.OnAreaOfEffectAgainstUnits
 
-Attacking from the back left of a target sometimes returns "right". Quick fix to change the return value to its proper value of "back".
-
-## ProjectileSplashDamageSystem
-
-Loop breaks instead of continuing on an unprimed projectile. Replace `break` with `continue` to process remaining projectiles.
+Inflicted heat and stagger damage was getting assigned to inflicted concussion damage. The fix puts the right amount in each of the damage categories.
 
 ## ProjectileProximityFuseSystem
 
 Loop breaks instead of continues in a couple of places. Replace `break` with `continue` to process remaining projectiles.
-
-## CaptureWithAlpha.GetProjectPath
-
-Screenshot are being saved to game install folder instead of user documents folder. Ironically, there is a helper class that has the right folder so it's just a matter of overriding a single getter method to use that path instead.
-
-## ModManager.ProcessFieldEdit
-
-There are a number of bugs in how the ModManager process ConfigEdit files. The biggest change is to fix add/remove operations so they operate on the path terminal instead of the top-level collection at the beginning of the path and add a null value operation to null out values.
-
-## CombatActionEvent.OnEjection
-
-The pilot stat `pilot_auto_combat_takedowns` records the number of enemy mechs that have been destroyed. However, I think that the idea of a mech takedown should be expanded to include forcing an enemy pilot to eject without completely destroying the mech. I do this by assigning the takedown to the mech that fired the last projectile to strike the downed mech. I added a new Entitas entity and component to track this information. The actual tracking is done in [CombatCollisionSystem](#combatcollisionsystem) and the allocation of credit is done in this method.
-
-## CombatCollisionSystem
-
-There are two fixes to this system. The first fix applies a scaling factor to the damage a projectile does to environment objects. This matches what is done when a projectile hits a unit. This mostly affects railgun projectiles. The second fix is tracking the unit that fires each projectile so when a unit's pilot ejects, credit for downing the unit can be assigned to the attacking pilot.
-
-## ModManager.LoadEverything
-
-Mods used to be able to add new English text entries through the LocalizationEdits mechanism. PB release 0.22 saw an overhaul to the localization infrastructure which unfortunately broke that. I can see a number of ways around this problem. With this fix I chose to wrap a bit of code around `ModManager.ProcessLocalizationEdits()` that gets triggered at the end of the ModManager main entry point.
-
-## CombatLandingSystem
-
-_Fixed in Phantom Brigade release 0.22_<br />
-UI tabs don't always appear for the new units. A simple one-line fix to trigger a redraw of the UI tabs.
-
-## AllEventPacingRules
-
-_Fixed in Phantom Brigade patch 0.23.1-b5426_<br />
-Diagnostic logging wasn't behind a flag so Player.log was getting spammed with messages about events.

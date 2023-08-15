@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectileProximityFuseSyst
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataManagerSaveFix", "DataManagerSaveFix\DataManagerSaveFix.csproj", "{23C44DAF-229E-4541-A5D1-8B8F1979B032}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CombatScenarioSetupSystemFix", "CombatScenarioSetupSystemFix\CombatScenarioSetupSystemFix.csproj", "{EDB295C9-7CE1-4D8D-B50F-0BE5011F34C6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CIViewOverworldEventFix", "CIViewOverworldEventFix\CIViewOverworldEventFix.csproj", "{DDA70921-B884-4107-9F93-68BC2533C540}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CombatUnitDamageEventFix", "CombatUnitDamageEventFix\CombatUnitDamageEventFix.csproj", "{ECA28BF5-14C1-4618-88AB-08DC4E02A2C1}"
@@ -29,10 +27,6 @@ Global
 		{23C44DAF-229E-4541-A5D1-8B8F1979B032}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23C44DAF-229E-4541-A5D1-8B8F1979B032}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23C44DAF-229E-4541-A5D1-8B8F1979B032}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EDB295C9-7CE1-4D8D-B50F-0BE5011F34C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EDB295C9-7CE1-4D8D-B50F-0BE5011F34C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EDB295C9-7CE1-4D8D-B50F-0BE5011F34C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EDB295C9-7CE1-4D8D-B50F-0BE5011F34C6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DDA70921-B884-4107-9F93-68BC2533C540}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DDA70921-B884-4107-9F93-68BC2533C540}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDA70921-B884-4107-9F93-68BC2533C540}.Release|Any CPU.ActiveCfg = Release|Any CPU

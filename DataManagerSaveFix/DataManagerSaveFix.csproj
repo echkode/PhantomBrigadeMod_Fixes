@@ -56,8 +56,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataManagerSave.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="ModLink.cs" />
     <Compile Include="Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

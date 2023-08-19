@@ -8,11 +8,16 @@ Each fix is its own project so that you can compile and install just that fix se
 
 List of fixes:
 
+- [ActionUtility.OnMeleeImpact](#actionutilityonmeleeimpact)
 - [CIViewOverworldEvent.FadeOutEnd](#civiewoverworldeventfadeoutend)
 - [CombatUnitDamageEvent.Run](#combatunitdamageeventrun)
 - [DataManagerSave.SaveAIData](#datamanagersavesaveaidata)
 - [OverlapUtility.OnAreaOfEffectAgainstUnits](#overlaputilityonareaofeffectagainstunits)
 - [ProjectileProximityFuseSystem](#projectileproximityfusesystem)
+
+## ActionUtility.OnMeleeImpact
+
+When collecting the damage stats for the weapon, the function uses the rounded property of `wpn_concussion` to round damage for `wpn_stagger`.
 
 ## CIViewOverworldEvent.FadeOutEnd
 

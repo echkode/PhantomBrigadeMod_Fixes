@@ -16,8 +16,7 @@ namespace EchKode.PBMods.DataManagerSaveFix
 	[HarmonyPatch]
 	static class Patch
 	{
-		private static PropertyInfo oe_agentEntityBlackboard = AccessTools.DeclaredProperty(typeof(OverworldEntity), nameof(OverworldEntity.agentEntityBlackboard));
-		private static MethodInfo blackboardGetter;
+		private static MethodInfo oe_getAgentEntityBlackboard = AccessTools.DeclaredPropertyGetter(typeof(OverworldEntity), nameof(OverworldEntity.agentEntityBlackboard));
 		private static MethodInfo idu_GetOverworldEntity = AccessTools.DeclaredMethod(typeof(PBIDUtility), nameof(PBIDUtility.GetOverworldEntity), new System.Type[] { typeof(int) });
 
 		[HarmonyPatch(typeof(PBDataManagerSave), "SaveAIData", new System.Type[] { typeof(OverworldEntity), typeof(DataContainerSavedOverworldEntity) })]
@@ -30,23 +29,6 @@ namespace EchKode.PBMods.DataManagerSaveFix
 			var branchCount = 0;
 			Label? loopEnd = null;
 
-			if (blackboardGetter == null)
-			{
-				foreach (var accessor in oe_agentEntityBlackboard.GetAccessors())
-				{
-					if (accessor.Name.StartsWith("get_"))
-					{
-						blackboardGetter = accessor;
-						break;
-					}
-				}
-			}
-
-			if (blackboardGetter == null)
-			{
-				throw new System.Exception($"Mod {ModLink.modID} ({ModLink.modIndex}) unable to find getter for OverworldEntity.agentEntityBlackboard");
-			}
-
 			foreach (var instruction in instructions)
 			{
 				if (branchCount >= 2)
@@ -55,7 +37,7 @@ namespace EchKode.PBMods.DataManagerSaveFix
 					continue;
 				}
 
-				if (instruction.Calls(blackboardGetter))
+				if (instruction.Calls(oe_getAgentEntityBlackboard))
 				{
 					foundForEachLoop = true;
 					yield return instruction;

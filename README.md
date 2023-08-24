@@ -30,13 +30,7 @@ Inflicted heat and stagger damage was getting assigned to inflicted concussion d
 
 ## DataContainerPartPreset.SortGenSteps
 
-Remove nulls from GenSteps list after sorting. This also changes the sorting comparison function (`CompareGenStepsForSorting`) so that nulls sort to the end of the list. This way removing the nulls is a quick operation because it's just removing elements from the end of the list. That avoids the copying that's done when removing an element from the front. The equivalent C# is
-```
-while (steps.Count != 0 && steps[steps.Count - 1] == null)
-{
-    steps.RemoveAt(steps.Count - 1);
-}
-```
+Remove nulls from GenSteps list after sorting. This also changes the sorting comparison function (`CompareGenStepsForSorting`) so that nulls sort to the end of the list. This way removing the nulls is a quick operation because it's just removing elements from the end of the list. That avoids the copying that's done when removing an element from the front.
 
 ## DataManagerSave.SaveAIData
 

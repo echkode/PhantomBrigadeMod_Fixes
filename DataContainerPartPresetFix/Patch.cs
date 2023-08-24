@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
 using System.Collections.Generic;
-using System.Reflection;
 using System.Reflection.Emit;
 
 using HarmonyLib;
@@ -31,64 +30,18 @@ namespace EchKode.PBMods.DataContainerPartPresetFix
 			return cm.InstructionEnumeration();
 		}
 
-		static readonly MethodInfo listCountGetter = AccessTools.DeclaredPropertyGetter(typeof(List<IPartGenStep>), nameof(List<IPartGenStep>.Count));
-		static readonly MethodInfo listRemoveAt = AccessTools.DeclaredMethod(typeof(List<IPartGenStep>), nameof(List<IPartGenStep>.RemoveAt));
-		static readonly MethodInfo listItemGetter = AccessTools.DeclaredPropertyGetter(typeof(List<IPartGenStep>), "Item");
-
 		[HarmonyPatch(typeof(PBDataContainerPartPreset), "SortGenSteps", new System.Type[] { typeof(List<IPartGenStep>) })]
-		[HarmonyTranspiler]
-		static IEnumerable<CodeInstruction> SortGenSteps_Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
+		[HarmonyPostfix]
+		static void Dcpp_SortGenStepsPostfix(List<IPartGenStep> steps)
 		{
-			var cm = new CodeMatcher(instructions, generator);
-			var sortLabel = generator.DefineLabel();
-			var loopStart = generator.DefineLabel();
-			var loopCondition = generator.DefineLabel();
-			var retLabel = generator.DefineLabel();
-			var retMatch = new CodeMatch(OpCodes.Ret);
-			var lastIndex = new[]
+			if (steps == null)
 			{
-				new CodeInstruction(OpCodes.Ldarg_1),
-				new CodeInstruction(OpCodes.Ldarg_1),
-				new CodeInstruction(OpCodes.Callvirt, listCountGetter),
-				new CodeInstruction(OpCodes.Ldc_I4_1),
-				new CodeInstruction(OpCodes.Sub),
-			};
-
-			// Patch up existing labels to keep things tidy.
-			cm.MatchStartForward(new CodeMatch(OpCodes.Brfalse_S));
-			cm.Operand = retLabel;
-			cm.MatchStartForward(new CodeMatch(OpCodes.Bgt_S));
-			cm.Operand = sortLabel;
-			cm.MatchStartForward(retMatch);
-			cm.Labels.Clear();
-			cm.SetAndAdvance(OpCodes.Br, retLabel);
-			cm.Labels.Clear();
-			cm.Labels.Add(sortLabel);
-			cm.MatchStartForward(retMatch);
-			cm.Labels.Add(retLabel);
-
-			cm.InsertAndAdvance(new CodeInstruction(OpCodes.Br_S, loopCondition));
-			cm.Insert(lastIndex);
-			// Clone the first instruction to avoid duplicating labels when lastIndex is used below.
-			cm.SetInstruction(cm.Instruction.Clone());
-			cm.Labels.Add(loopStart);
-			cm.Advance(lastIndex.Length);
-			cm.InsertAndAdvance(new CodeInstruction(OpCodes.Callvirt, listRemoveAt));
-
-			var emptyCheck = new[]
+				return;
+			}
+			while (steps.Count != 0 && steps[steps.Count - 1] == null)
 			{
-				new CodeInstruction(OpCodes.Ldarg_1),
-				new CodeInstruction(OpCodes.Callvirt, listCountGetter),
-				new CodeInstruction(OpCodes.Brfalse_S, retLabel),
-			};
-			cm.Insert(emptyCheck);
-			cm.Labels.Add(loopCondition);
-			cm.Advance(emptyCheck.Length);
-			cm.InsertAndAdvance(lastIndex);
-			cm.InsertAndAdvance(new CodeInstruction(OpCodes.Callvirt, listItemGetter));
-			cm.Insert(new CodeInstruction(OpCodes.Brfalse_S, loopStart));
-
-			return cm.InstructionEnumeration();
+				steps.RemoveAt(steps.Count - 1);
+			}
 		}
 	}
 }

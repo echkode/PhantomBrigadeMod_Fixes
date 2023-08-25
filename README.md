@@ -9,6 +9,7 @@ Each fix is its own project so that you can compile and install just that fix se
 List of fixes:
 
 - [ActionUtility.OnMeleeImpact](#actionutilityonmeleeimpact)
+- [AddHardpointsFix.Run](#addhardpointsfixrun)
 - [CIViewOverworldEvent.FadeOutEnd](#civiewoverworldeventfadeoutend)
 - [CombatUnitDamageEvent.Run](#combatunitdamageeventrun)
 - [DataContainerPartPreset.SortGenSteps](#datacontainerpartpresetsortgensteps)
@@ -19,6 +20,10 @@ List of fixes:
 ## ActionUtility.OnMeleeImpact
 
 When collecting the damage stats for the weapon, the function uses the rounded property of `wpn_concussion` to round damage for `wpn_stagger`.
+
+## AddHardpointsFix.Run
+
+Prevent adding null hardpoints to layout. There is a hard limit to the generated layout pool capacity and if it is exceeded, the pool will return null. Other parts of the code aren't expecting generated hardpoints to be null.
 
 ## CIViewOverworldEvent.FadeOutEnd
 

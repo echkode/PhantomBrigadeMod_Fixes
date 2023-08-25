@@ -8,6 +8,7 @@ Each fix is its own project so that you can compile and install just that fix se
 
 List of fixes:
 
+- [ActionUtility.GetScatterAngleAtTime](#actionutilitygetscatterangleattime)
 - [ActionUtility.OnMeleeImpact](#actionutilityonmeleeimpact)
 - [AddHardpointsFix.Run](#addhardpointsfixrun)
 - [CIViewOverworldEvent.FadeOutEnd](#civiewoverworldeventfadeoutend)
@@ -16,6 +17,10 @@ List of fixes:
 - [DataManagerSave.SaveAIData](#datamanagersavesaveaidata)
 - [OverlapUtility.OnAreaOfEffectAgainstUnits](#overlaputilityonareaofeffectagainstunits)
 - [ProjectileProximityFuseSystem](#projectileproximityfusesystem)
+
+## ActionUtility.GetScatterAngleAtTime
+
+Prevent scatter angle from going negative by clamping lower bound to zero. Not every place using scatter angle at time is clamping the value and nowhere is it expecting the value to be negative.
 
 ## ActionUtility.OnMeleeImpact
 

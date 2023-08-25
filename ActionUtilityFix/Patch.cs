@@ -50,5 +50,12 @@ namespace EchKode.PBMods.ActionUtilityFix
 				yield return instruction;
 			}
 		}
+
+		[HarmonyPatch(typeof(PBActionUtility), "GetScatterAngleAtTime")]
+		[HarmonyPostfix]
+		static void Au_GetScatterAngleAtTimePostfix(ref float __result)
+		{
+			__result = Mathf.Max(0f, __result);
+		}
 	}
 }

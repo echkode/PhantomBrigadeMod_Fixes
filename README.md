@@ -16,7 +16,6 @@ List of fixes:
 - [DataContainerPartPreset.SortGenSteps](#datacontainerpartpresetsortgensteps)
 - [DataManagerSave.SaveAIData](#datamanagersavesaveaidata)
 - [OverlapUtility.OnAreaOfEffectAgainstUnits](#overlaputilityonareaofeffectagainstunits)
-- [ProjectileProximityFuseSystem](#projectileproximityfusesystem)
 
 ## ActionUtility.GetScatterAngleAtTime
 
@@ -49,7 +48,3 @@ Empty names were being serialized out for overworld entities which could cause t
 ## OverlapUtility.OnAreaOfEffectAgainstUnits
 
 Inflicted heat and stagger damage was getting assigned to inflicted concussion damage. The fix puts the right amount in each of the damage categories.
-
-## ProjectileProximityFuseSystem
-
-Loop breaks instead of continues in a couple of places. Replace `break` with `continue` to process remaining projectiles.

@@ -9,17 +9,12 @@ Each fix is its own project so that you can compile and install just that fix se
 List of fixes:
 
 - [ActionUtility.GetScatterAngleAtTime](#actionutilitygetscatterangleattime)
-- [ActionUtility.OnMeleeImpact](#actionutilityonmeleeimpact)
 - [AddHardpointsFix.Run](#addhardpointsfixrun)
 - [DataContainerPartPreset.SortGenSteps](#datacontainerpartpresetsortgensteps)
 
 ## ActionUtility.GetScatterAngleAtTime
 
 Prevent scatter angle from going negative by clamping lower bound to zero. Not every place using scatter angle at time is clamping the value and nowhere is it expecting the value to be negative.
-
-## ActionUtility.OnMeleeImpact
-
-When collecting the damage stats for the weapon, the function uses the rounded property of `wpn_concussion` to round damage for `wpn_stagger`.
 
 ## AddHardpointsFix.Run
 

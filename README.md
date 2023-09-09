@@ -12,7 +12,6 @@ List of fixes:
 - [ActionUtility.OnMeleeImpact](#actionutilityonmeleeimpact)
 - [AddHardpointsFix.Run](#addhardpointsfixrun)
 - [CIViewOverworldEvent.FadeOutEnd](#civiewoverworldeventfadeoutend)
-- [CombatUnitDamageEvent.Run](#combatunitdamageeventrun)
 - [DataContainerPartPreset.SortGenSteps](#datacontainerpartpresetsortgensteps)
 
 ## ActionUtility.GetScatterAngleAtTime
@@ -30,10 +29,6 @@ Prevent adding null hardpoints to layout. There is a hard limit to the generated
 ## CIViewOverworldEvent.FadeOutEnd
 
 The FadeOutEnd() method was setting FadeInEnd as an on-complete action which would reset some of the button states in the event dialog so that they would appear even if they shouldn't.
-
-## CombatUnitDamageEvent.Run
-
-Inflicted heat and stagger damage was getting assigned to inflicted concussion damage. The fix puts the right amount in each of the damage categories.
 
 ## DataContainerPartPreset.SortGenSteps
 

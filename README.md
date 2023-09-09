@@ -15,7 +15,6 @@ List of fixes:
 - [CombatUnitDamageEvent.Run](#combatunitdamageeventrun)
 - [DataContainerPartPreset.SortGenSteps](#datacontainerpartpresetsortgensteps)
 - [DataManagerSave.SaveAIData](#datamanagersavesaveaidata)
-- [OverlapUtility.OnAreaOfEffectAgainstUnits](#overlaputilityonareaofeffectagainstunits)
 
 ## ActionUtility.GetScatterAngleAtTime
 
@@ -44,7 +43,3 @@ Remove nulls from GenSteps list after sorting. This also changes the sorting com
 ## DataManagerSave.SaveAIData
 
 Empty names were being serialized out for overworld entities which could cause trouble when the saved game was loaded again. Best to skip these nameless overworld entities.
-
-## OverlapUtility.OnAreaOfEffectAgainstUnits
-
-Inflicted heat and stagger damage was getting assigned to inflicted concussion damage. The fix puts the right amount in each of the damage categories.

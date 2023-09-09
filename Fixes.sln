@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32811.315
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CIViewOverworldEventFix", "CIViewOverworldEventFix\CIViewOverworldEventFix.csproj", "{DDA70921-B884-4107-9F93-68BC2533C540}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActionUtilityFix", "ActionUtilityFix\ActionUtilityFix.csproj", "{DF4561FB-D6D3-4213-BED5-3C942EE47EFD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataContainerPartPresetFix", "DataContainerPartPresetFix\DataContainerPartPresetFix.csproj", "{4B5DA454-F571-40CD-91D2-925E084BC04E}"
@@ -17,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DDA70921-B884-4107-9F93-68BC2533C540}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DDA70921-B884-4107-9F93-68BC2533C540}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DDA70921-B884-4107-9F93-68BC2533C540}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DDA70921-B884-4107-9F93-68BC2533C540}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DF4561FB-D6D3-4213-BED5-3C942EE47EFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DF4561FB-D6D3-4213-BED5-3C942EE47EFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF4561FB-D6D3-4213-BED5-3C942EE47EFD}.Release|Any CPU.ActiveCfg = Release|Any CPU

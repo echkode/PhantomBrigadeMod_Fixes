@@ -11,7 +11,6 @@ List of fixes:
 - [ActionUtility.GetScatterAngleAtTime](#actionutilitygetscatterangleattime)
 - [ActionUtility.OnMeleeImpact](#actionutilityonmeleeimpact)
 - [AddHardpointsFix.Run](#addhardpointsfixrun)
-- [CIViewOverworldEvent.FadeOutEnd](#civiewoverworldeventfadeoutend)
 - [DataContainerPartPreset.SortGenSteps](#datacontainerpartpresetsortgensteps)
 
 ## ActionUtility.GetScatterAngleAtTime
@@ -25,10 +24,6 @@ When collecting the damage stats for the weapon, the function uses the rounded p
 ## AddHardpointsFix.Run
 
 Prevent adding null hardpoints to layout. There is a hard limit to the generated layout pool capacity and if it is exceeded, the pool will return null. Other parts of the code aren't expecting generated hardpoints to be null.
-
-## CIViewOverworldEvent.FadeOutEnd
-
-The FadeOutEnd() method was setting FadeInEnd as an on-complete action which would reset some of the button states in the event dialog so that they would appear even if they shouldn't.
 
 ## DataContainerPartPreset.SortGenSteps
 

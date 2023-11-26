@@ -5,5 +5,5 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "Used by the Harmony patch system", Scope = "member", Target = "~M:EchKode.PBMods.ActionUtilityFix.Patch.Transpiler(System.Collections.Generic.IEnumerable{HarmonyLib.CodeInstruction})~System.Collections.Generic.IEnumerable{HarmonyLib.CodeInstruction}")]
 [assembly: SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "Used by the Harmony patch system", Scope = "member", Target = "~M:EchKode.PBMods.ActionUtilityFix.Patch.Au_GetScatterAngleAtTimePostfix(System.Single@)")]
+[assembly: SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "Used by the Harmony patch system", Scope = "member", Target = "~M:EchKode.PBMods.ActionUtilityFix.Patch.Au_CreatePathActionTranspiler(System.Collections.Generic.IEnumerable{HarmonyLib.CodeInstruction},System.Reflection.Emit.ILGenerator)~System.Collections.Generic.IEnumerable{HarmonyLib.CodeInstruction}")]

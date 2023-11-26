@@ -8,11 +8,16 @@ Each fix is its own project so that you can compile and install just that fix se
 
 List of fixes:
 
+- [ActionUtility.CreatePathAction](#actionutilitycreatepathaction)
 - [ActionUtility.GetScatterAngleAtTime](#actionutilitygetscatterangleattime)
 - [AddHardpointsFix.Run](#addhardpointsfixrun)
 - [CIViewCombatTimeline.AdjustTimelineRegions](#civiewcombattimelineadjusttimelineregions)
 - [CombatUtilities.ClampTimeInCurrentTurn](#combatutilitiesclamptimeincurrentturn)
 - [DataContainerPartPreset.SortGenSteps](#datacontainerpartpresetsortgensteps)
+
+## ActionUtility.CreatePathAction
+
+Prevent placing actions after the max time placement in a turn. This constraint is necessary to avoid odd behavior and/or unexpected exits when dragging actions in the timeline.
 
 ## ActionUtility.GetScatterAngleAtTime
 

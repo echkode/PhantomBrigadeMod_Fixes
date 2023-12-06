@@ -44,11 +44,11 @@
     </Reference>
     <Reference Include="Entitas, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Program Files\Epic Games\PhantomBrigade\PhantomBrigade_Data\Managed\Entitas.dll</HintPath>
+      <HintPath>$(GameInstallationPath)\PhantomBrigade_Data\Managed\Entitas.dll</HintPath>
     </Reference>
     <Reference Include="QFSW.QC, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Program Files\Epic Games\PhantomBrigade\PhantomBrigade_Data\Managed\QFSW.QC.dll</HintPath>
+      <HintPath>$(GameInstallationPath)\PhantomBrigade_Data\Managed\QFSW.QC.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -61,7 +61,7 @@
     </Reference>
     <Reference Include="UnityUtilities, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Program Files\Epic Games\PhantomBrigade\PhantomBrigade_Data\Managed\UnityUtilities.dll</HintPath>
+      <HintPath>$(GameInstallationPath)\PhantomBrigade_Data\Managed\UnityUtilities.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

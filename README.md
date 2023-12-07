@@ -15,6 +15,7 @@ List of fixes:
 - [CombatUILinkTimeline.Execute](#combatuilinktimelineexecute)
 - [CombatUtilities.ClampTimeInCurrentTurn](#combatutilitiesclamptimeincurrentturn)
 - [DataContainerPartPreset.SortGenSteps](#datacontainerpartpresetsortgensteps)
+- [InputCombatWaitDrawingUtility.AttemptFinish](#inputcombatwaitdrawingutilityattemptfinish)
 - [PathUtility.TrimPastMovement](#pathutilitytrimpastmovement)
 
 ## ActionUtility.CreatePathAction
@@ -80,6 +81,10 @@ Use the turn length as set by the simulation configuration file rather than a ha
 ## DataContainerPartPreset.SortGenSteps
 
 Remove nulls from GenSteps list after sorting. This also changes the sorting comparison function (`CompareGenStepsForSorting`) so that nulls sort to the end of the list. This way removing the nulls is a quick operation because it's just removing elements from the end of the list. That avoids the copying that's done when removing an element from the front.
+
+## InputCombatWaitDrawingUtility.AttemptFinish
+
+Wait actions have the same issue as run actions in that they can be placed after the max time placement in a round. Similar to run actions, this has the potential to cause the game to exit unexpectedly if such a wait action is placed and prior actions are dragged.
 
 ## PathUtility.TrimPastMovement
 

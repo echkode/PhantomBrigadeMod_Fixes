@@ -12,6 +12,7 @@ List of fixes:
 - [ActionUtility.GetScatterAngleAtTime](#actionutilitygetscatterangleattime)
 - [AddHardpointsFix.Run](#addhardpointsfixrun)
 - [CIViewCombatTimeline.AdjustTimelineRegions](#civiewcombattimelineadjusttimelineregions)
+- [CombatExecutionEndLateSystem.Execute](#combatexecutionendlatesystemexecute)
 - [CombatUILinkTimeline.Execute](#combatuilinktimelineexecute)
 - [CombatUtilities.ClampTimeInCurrentTurn](#combatutilitiesclamptimeincurrentturn)
 - [DataContainerPartPreset.SortGenSteps](#datacontainerpartpresetsortgensteps)
@@ -67,6 +68,10 @@ The `depth` value is an argument that's incremented with each call into `AdjustT
 There is another bug in action placement that  breaks the first constraint. Normally the timeline prevents trying to place an action that starts after turn start + 4.5s. However, if there is a dash action that extends slightly past turn start + 4.5s, it is possible to place a run action after it. During the placing of the run action, it will appear to overlap the dash action. Once the run action is placed, the action is moved slightly so that it properly abuts the end of the dash action. However, this causes the start time of the action to be outside the constraint window.
 
 This fix builds on the insight that the two constraints lets you calculate the maximum displacement of the selected action. This puts bounds on how far it can be dragged and guarantees that when it is dragged to the edge of those bounds, the actions between it and the end of the timeline that it's being dragged toward are packed as tightly as possible without any overlap. This can all be computed up front with a few simple loops in a non-recursive procedure. It also has some special logic to detect when the placement algorithm has added an action beyond turn start + 4.5s.
+
+## CombatExecutionEndLateSystem.Execute
+
+Long wait actions that go into the next turn are split on the turn boundary when the planning phase for the next turn begins. This matches what happens with run actions. Wait actions in the new turn that are less than 0.5s in duration are kept as continuations of the wait action from the previous turn to avoid creating runt waits. This constant was found in `InputCombatWaitDrawingUtility.AttemptFinish()` where it is used to prevent creating wait actions with durations less than that time.
 
 ## CombatUILinkTimeline.Execute
 

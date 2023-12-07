@@ -14,6 +14,7 @@ List of fixes:
 - [CIViewCombatTimeline.AdjustTimelineRegions](#civiewcombattimelineadjusttimelineregions)
 - [CombatUtilities.ClampTimeInCurrentTurn](#combatutilitiesclamptimeincurrentturn)
 - [DataContainerPartPreset.SortGenSteps](#datacontainerpartpresetsortgensteps)
+- [PathUtility.TrimPastMovement](#pathutilitytrimpastmovement)
 
 ## ActionUtility.CreatePathAction
 
@@ -72,3 +73,31 @@ Use the turn length as set by the simulation configuration file rather than a ha
 ## DataContainerPartPreset.SortGenSteps
 
 Remove nulls from GenSteps list after sorting. This also changes the sorting comparison function (`CompareGenStepsForSorting`) so that nulls sort to the end of the list. This way removing the nulls is a quick operation because it's just removing elements from the end of the list. That avoids the copying that's done when removing an element from the front.
+
+## PathUtility.TrimPastMovement
+
+Prevent runt runs from being created. Runt runs are small run actions that appear at the start of a new turn when there is a prior run action that spills over into the new turn.
+
+![Small runt run action at beginning of the turn](https://github.com/echkode/PhantomBrigadeMod_Fixes/assets/48565771/4b4ad7bd-b3ce-4892-9345-c50aba30031c)
+
+There are several problems with these runts. When a runt is selected, the selection is shown offset from the action.
+
+![Offset selection of a runt run](https://github.com/echkode/PhantomBrigadeMod_Fixes/assets/48565771/c7b10695-7d39-4525-8447-5e338f4f5f33)
+
+Subsquent run actions overlap these runts.
+
+![Overlap of run by a second run action](https://github.com/echkode/PhantomBrigadeMod_Fixes/assets/48565771/e7a80191-6dae-44bb-8128-8a6967c9dd44)
+
+The overlap is hard to see because the runts are so small they don't contain the action name so here's the same sequence with the second run moved a bit so you can compare the two.
+
+![Same sequence of runs moved so the overlapped image can be compared to this one](https://github.com/echkode/PhantomBrigadeMod_Fixes/assets/48565771/d94c68b0-dffb-4ff7-a47a-87456a3cda30)
+
+The runts don't prevent other run actions from working correctly. That is, only the runt gets overlapped, the rest don't.
+
+![Third run action doesn't overlap the second one](https://github.com/echkode/PhantomBrigadeMod_Fixes/assets/48565771/9e1c32c1-3a21-49a2-9e09-6fd6309d4ab3)
+
+Selection is still wonky, however.
+
+![Three selected actions with runt selection offset](https://github.com/echkode/PhantomBrigadeMod_Fixes/assets/48565771/d125084e-ed3a-4dbf-b370-bb7373b6fabf)
+
+The fix looks at the duration of the run action in the new turn and leaves it as a continuation of the action from the previous turn if the duration is less than 0.25s. This constant was found in `ActionUtility.CreatePathAction()` which logs a warning and doesn't create the action when its duration is less than that constant.

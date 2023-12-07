@@ -86,6 +86,8 @@ Remove nulls from GenSteps list after sorting. This also changes the sorting com
 
 Wait actions have the same issue as run actions in that they can be placed after the max time placement in a round. Similar to run actions, this has the potential to cause the game to exit unexpectedly if such a wait action is placed and prior actions are dragged.
 
+Wait actions also have one more trick. If a wait action spans the turn boundary (that is, starts in one turn and finishes in the next), the action is split into two actions with the first action lasting up to the turn boundary and the second action starting on the turn boundary. This creates two problems, one of which is the same as above with an action being created after the max time placement. The second is that runt wait actions can be created with the same issues as runt run actions. This fix prevents splitting a wait action when it spans turns.
+
 ## PathUtility.TrimPastMovement
 
 Prevent runt runs from being created. Runt runs are small run actions that appear at the start of a new turn when there is a prior run action that spills over into the new turn.

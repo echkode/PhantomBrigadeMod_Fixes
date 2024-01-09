@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CombatExecutionEndLateSyste
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InputCombatMeleeUtilityFix", "InputCombatMeleeUtilityFix\InputCombatMeleeUtilityFix.csproj", "{82588778-B4AB-4D46-ABEE-2D5AE4DC810E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CIViewCombatScenarioStatusFix", "CIViewCombatScenarioStatusFix\CIViewCombatScenarioStatusFix.csproj", "{E7E1E688-50E0-46B1-9C77-840EB3A7B06D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{82588778-B4AB-4D46-ABEE-2D5AE4DC810E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82588778-B4AB-4D46-ABEE-2D5AE4DC810E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82588778-B4AB-4D46-ABEE-2D5AE4DC810E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7E1E688-50E0-46B1-9C77-840EB3A7B06D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7E1E688-50E0-46B1-9C77-840EB3A7B06D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7E1E688-50E0-46B1-9C77-840EB3A7B06D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7E1E688-50E0-46B1-9C77-840EB3A7B06D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

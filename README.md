@@ -20,6 +20,7 @@ List of fixes:
 - [InputCombatMeleeUtility.AttemptTargeting](#inputcombatmeleeutilityattempttargeting)
 - [InputCombatWaitDrawingUtility.AttemptFinish](#inputcombatwaitdrawingutilityattemptfinish)
 - [PathUtility.TrimPastMovement](#pathutilitytrimpastmovement)
+- [ScenarioUtility.FreeOrDestroyCombatParticipants](#scenarioutilityfreeordestroycombatparticipants)
 
 ## ActionUtility.CreatePathAction
 
@@ -214,3 +215,7 @@ Selection is still wonky, however.
 ![Three selected actions with runt selection offset](https://github.com/echkode/PhantomBrigadeMod_Fixes/assets/48565771/d125084e-ed3a-4dbf-b370-bb7373b6fabf)
 
 The fix looks at the duration of the run action in the new turn and leaves it as a continuation of the action from the previous turn if the duration is less than 0.25s. This constant was found in `ActionUtility.CreatePathAction()` which logs a warning and doesn't create the action when its duration is less than that constant.
+
+## ScenarioUtility.FreeOrDestroyCombatParticipants
+
+There's an early return out of a loop over all the combat participants that should be a `continue`. It's unlikely this is common since it requires `PersistentEntity.isSalvageUnitFrame` to be `true` on a combat participant. The player has to change a difficulty setting to permit frame salvage and then salvage a frame to expose this execution path.

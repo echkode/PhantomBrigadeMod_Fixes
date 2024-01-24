@@ -10,7 +10,6 @@ List of fixes:
 
 - [ActionUtility.CreatePathAction](#actionutilitycreatepathaction)
 - [ActionUtility.GetScatterAngleAtTime](#actionutilitygetscatterangleattime)
-- [AddHardpointsFix.Run](#addhardpointsfixrun)
 - [CIViewCombatScenarioStatusFix.Refresh](#civiewcombatscenariostatusfixrefresh)
 - [CIViewCombatTimeline.AdjustTimelineRegions](#civiewcombattimelineadjusttimelineregions)
 - [CombatExecutionEndLateSystem.Execute](#combatexecutionendlatesystemexecute)
@@ -29,10 +28,6 @@ Prevent placing actions after the max time placement in a turn. This constraint 
 ## ActionUtility.GetScatterAngleAtTime
 
 Prevent scatter angle from going negative by clamping lower bound to zero. Not every place using scatter angle at time is clamping the value and nowhere is it expecting the value to be negative.
-
-## AddHardpointsFix.Run
-
-Prevent adding null hardpoints to layout. There is a hard limit to the generated layout pool capacity and if it is exceeded, the pool will return null. Other parts of the code aren't expecting generated hardpoints to be null.
 
 ## CIViewCombatScenarioStatusFix.Refresh
 

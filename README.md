@@ -8,8 +8,6 @@ Each fix is its own project so that you can compile and install just that fix se
 
 List of fixes:
 
-- [ActionUtility.CreatePathAction](#actionutilitycreatepathaction)
-- [ActionUtility.GetScatterAngleAtTime](#actionutilitygetscatterangleattime)
 - [CIViewCombatScenarioStatusFix.Refresh](#civiewcombatscenariostatusfixrefresh)
 - [CIViewCombatTimeline.AdjustTimelineRegions](#civiewcombattimelineadjusttimelineregions)
 - [CombatExecutionEndLateSystem.Execute](#combatexecutionendlatesystemexecute)
@@ -20,14 +18,6 @@ List of fixes:
 - [InputCombatWaitDrawingUtility.AttemptFinish](#inputcombatwaitdrawingutilityattemptfinish)
 - [PathUtility.TrimPastMovement](#pathutilitytrimpastmovement)
 - [ScenarioUtility.FreeOrDestroyCombatParticipants](#scenarioutilityfreeordestroycombatparticipants)
-
-## ActionUtility.CreatePathAction
-
-Prevent placing actions after the max time placement in a turn. This constraint is necessary to avoid odd behavior and/or unexpected exits when dragging actions in the timeline.
-
-## ActionUtility.GetScatterAngleAtTime
-
-Prevent scatter angle from going negative by clamping lower bound to zero. Not every place using scatter angle at time is clamping the value and nowhere is it expecting the value to be negative.
 
 ## CIViewCombatScenarioStatusFix.Refresh
 

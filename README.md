@@ -11,6 +11,7 @@ List of fixes:
 - [CIViewCombatScenarioStatusFix.Refresh](#civiewcombatscenariostatusfixrefresh)
 - [DataContainerPartPreset.SortGenSteps](#datacontainerpartpresetsortgensteps)
 - [DataMultiLinker.LoadData](#datamultilinkerloaddata)
+- [DataMultiLinkerUnitComposite.ProcessRecursive](#datamultilinkerunitcompositeprocessrecursive)
 - [ScenarioUtility.FreeOrDestroyCombatParticipants](#scenarioutilityfreeordestroycombatparticipants)
 
 ## CIViewCombatScenarioStatusFix.Refresh
@@ -104,6 +105,10 @@ Mod 10 (com.echkode.pbmods.datamultilinkerloaddatafix) OnAfterDeserialization | 
 Mod 10 (com.echkode.pbmods.datamultilinkerloaddatafix) OnAfterDeserialization | key: system_equipment_core | instance key: system_equipment_core
 Mod 10 (com.echkode.pbmods.datamultilinkerloaddatafix) OnAfterDeserialization | key: wait | instance key: wait
 ```
+
+## DataMultiLinkerUnitComposite.ProcessRecursive
+
+Composite units are a new addition with release 1.2.0. There's a new database, UnitComposite, that's used to construct these units. Like many other databases, UnitComposite can inherit properties from parent objects. For example, parent objects can add items the `nodes` field on the `DataBlockUnitCompositeDirector` class. However, that doesn't happen for the `booting` field on the same class. Instead, the code initializes the field from the first non-null value it sees. This means that parent objects cannot add `booting` functions to a composite unit. This patch merges all the `booting` functions in the inheritance hierarchy.
 
 ## ScenarioUtility.FreeOrDestroyCombatParticipants
 

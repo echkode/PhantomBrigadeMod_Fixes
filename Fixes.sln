@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataMultiLinkerLoadDataFix"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataMultiLinkerUnitCompositeFix", "DataMultiLinkerUnitCompositeFix\DataMultiLinkerUnitCompositeFix.csproj", "{08DD1B3E-58EF-4B67-84A6-5090F5AD1A4C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModManagerFix", "ModManagerFix\ModManagerFix.csproj", "{97DDA442-BCD1-45F7-BD0C-4263F0AF449B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{08DD1B3E-58EF-4B67-84A6-5090F5AD1A4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08DD1B3E-58EF-4B67-84A6-5090F5AD1A4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08DD1B3E-58EF-4B67-84A6-5090F5AD1A4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97DDA442-BCD1-45F7-BD0C-4263F0AF449B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97DDA442-BCD1-45F7-BD0C-4263F0AF449B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97DDA442-BCD1-45F7-BD0C-4263F0AF449B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97DDA442-BCD1-45F7-BD0C-4263F0AF449B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

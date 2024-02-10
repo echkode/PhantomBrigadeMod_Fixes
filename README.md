@@ -12,7 +12,6 @@ List of fixes:
 - [DataContainerPartPreset.SortGenSteps](#datacontainerpartpresetsortgensteps)
 - [DataMultiLinker.LoadData](#datamultilinkerloaddata)
 - [DataMultiLinkerUnitComposite.ProcessRecursive](#datamultilinkerunitcompositeprocessrecursive)
-- [ScenarioUtility.FreeOrDestroyCombatParticipants](#scenarioutilityfreeordestroycombatparticipants)
 
 ## CIViewCombatScenarioStatusFix.Refresh
 
@@ -109,7 +108,3 @@ Mod 10 (com.echkode.pbmods.datamultilinkerloaddatafix) OnAfterDeserialization | 
 ## DataMultiLinkerUnitComposite.ProcessRecursive
 
 Composite units are a new addition with release 1.2.0. There's a new database, UnitComposite, that's used to construct these units. Like many other databases, UnitComposite can inherit properties from parent objects. For example, parent objects can add items the `nodes` field on the `DataBlockUnitCompositeDirector` class. However, that doesn't happen for the `booting` field on the same class. Instead, the code initializes the field from the first non-null value it sees. This means that parent objects cannot add `booting` functions to a composite unit. This patch merges all the `booting` functions in the inheritance hierarchy.
-
-## ScenarioUtility.FreeOrDestroyCombatParticipants
-
-There's an early return out of a loop over all the combat participants that should be a `continue`. It's unlikely this is common since it requires `PersistentEntity.isSalvageUnitFrame` to be `true` on a combat participant. The player has to change a difficulty setting to permit frame salvage and then salvage a frame to expose this execution path.

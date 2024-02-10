@@ -12,7 +12,6 @@ List of fixes:
 - [DataContainerPartPreset.SortGenSteps](#datacontainerpartpresetsortgensteps)
 - [DataMultiLinker.LoadData](#datamultilinkerloaddata)
 - [DataMultiLinkerUnitComposite.ProcessRecursive](#datamultilinkerunitcompositeprocessrecursive)
-- [ModManager.TryLoadingLibraries](#modmanagertryloadinglibraries)
 - [ScenarioUtility.FreeOrDestroyCombatParticipants](#scenarioutilityfreeordestroycombatparticipants)
 
 ## CIViewCombatScenarioStatusFix.Refresh
@@ -110,14 +109,6 @@ Mod 10 (com.echkode.pbmods.datamultilinkerloaddatafix) OnAfterDeserialization | 
 ## DataMultiLinkerUnitComposite.ProcessRecursive
 
 Composite units are a new addition with release 1.2.0. There's a new database, UnitComposite, that's used to construct these units. Like many other databases, UnitComposite can inherit properties from parent objects. For example, parent objects can add items the `nodes` field on the `DataBlockUnitCompositeDirector` class. However, that doesn't happen for the `booting` field on the same class. Instead, the code initializes the field from the first non-null value it sees. This means that parent objects cannot add `booting` functions to a composite unit. This patch merges all the `booting` functions in the inheritance hierarchy.
-
-## ModManager.TryLoadingLibraries
-
-There are a number of function interfaces that mods might want to implement but they can't be used in ConfigEdits/ConfigOverrides because they won't get added to the YAML tag map that the YAML deserializer uses. After `ModLink.OnLoad()` has been called on each mod, this patch scans the loaded assemblies and looks for any type that has the `TypeHinted` attribute or implements an interface that has that attribute. Modders don't have to do anything except create a class that implements one of the function interfaces and it will be automatically added to the YAML tag map for them when their mods load.
-
-Besides patching `ModManager.TryLoadingLibraries()`, a couple of other places have to be patched as well to keep the YAML tag map from being blown out with each mod and allow the YAML deserializer to pick up the new tag map. A guard has been added to `UtilitiesYAML.LoadTagMapping()` so that it only make a new dictionary if one doesn't already exist. There's a guard in `UtilitiesYAML.SetupReader()` that prevents the deserializer from being changed once it has been initialized. I have to work around this by nulling out the existing deserializer if new mappings have been added to YAML tag map so that `UtilitiesYAML.SetupReader()` creates a new deserializer with the new mappings.
-
-The final place that's patched is `ModManger.LoadMod()` to move up the call to `TryLoadingLibraries()` so that it comes before loading the ConfigEdits/ConfigOverrides for the mod. This will permit the mod to use the function interfaces it implements in configuration changes included with the mod instead of having to load a library mod then a config change mod.
 
 ## ScenarioUtility.FreeOrDestroyCombatParticipants
 

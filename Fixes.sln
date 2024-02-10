@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32811.315
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataContainerPartPresetFix", "DataContainerPartPresetFix\DataContainerPartPresetFix.csproj", "{4B5DA454-F571-40CD-91D2-925E084BC04E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CIViewCombatScenarioStatusFix", "CIViewCombatScenarioStatusFix\CIViewCombatScenarioStatusFix.csproj", "{E7E1E688-50E0-46B1-9C77-840EB3A7B06D}"
 EndProject
 Global
@@ -13,10 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4B5DA454-F571-40CD-91D2-925E084BC04E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4B5DA454-F571-40CD-91D2-925E084BC04E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4B5DA454-F571-40CD-91D2-925E084BC04E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4B5DA454-F571-40CD-91D2-925E084BC04E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E7E1E688-50E0-46B1-9C77-840EB3A7B06D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E7E1E688-50E0-46B1-9C77-840EB3A7B06D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7E1E688-50E0-46B1-9C77-840EB3A7B06D}.Release|Any CPU.ActiveCfg = Release|Any CPU

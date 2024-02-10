@@ -33,7 +33,3 @@ The fill of the last segment sometimes spills into the border of the turn counte
 Here's how it looks after the fix.
 
 ![Black border on right side of turn counter](https://github.com/echkode/PhantomBrigadeMod_Fixes/assets/48565771/7c624955-f36f-4c94-8728-c962657a5080)
-
-## DataContainerPartPreset.SortGenSteps
-
-Remove nulls from GenSteps list after sorting. This also changes the sorting comparison function (`CompareGenStepsForSorting`) so that nulls sort to the end of the list. This way removing the nulls is a quick operation because it's just removing elements from the end of the list. That avoids the copying that's done when removing an element from the front.

@@ -2,14 +2,14 @@
 
 This is a collection of bug fixes and other corrections for [Phantom Brigade](https://braceyourselfgames.com/phantom-brigade/). This is not a mod in the traditional sense of an extension to the game that adds a feature or brings in new content. Instead, this is a collection of spot fixes to small bugs I've found in the code as I've been researching and developing other mods.
 
-These fixes are for release version **1.2.0**.
+These fixes are for release version **1.2.1**.
 
 Each fix is its own project so that you can compile and install just that fix separate from all the others.
 
 List of fixes:
 
 - [CIViewCombatScenarioStatusFix.Refresh](#civiewcombatscenariostatusfixrefresh)
-- [DataContainerPartPreset.SortGenSteps](#datacontainerpartpresetsortgensteps)
+- [CombatDamageSystem.Execute](#combatdamagesystemexecute)
 
 ## CIViewCombatScenarioStatusFix.Refresh
 
@@ -33,3 +33,7 @@ The fill of the last segment sometimes spills into the border of the turn counte
 Here's how it looks after the fix.
 
 ![Black border on right side of turn counter](https://github.com/echkode/PhantomBrigadeMod_Fixes/assets/48565771/7c624955-f36f-4c94-8728-c962657a5080)
+
+## CombatDamageSystem.Execute
+
+When a unit is destroyed with a pilot still in it, the pilot is marked as deceased but the health stats for the pilot are left unchanged. When the destroyed unit is hit with shots from weapons that have concussion damage, the concussion damage popup gets displayed even though the pilot is dead. This spot fix checks that the pilot isn't deceased or knocked out before entering the block to assess concussion damage.

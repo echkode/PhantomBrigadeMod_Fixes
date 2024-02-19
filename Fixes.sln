@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32811.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CIViewCombatScenarioStatusFix", "CIViewCombatScenarioStatusFix\CIViewCombatScenarioStatusFix.csproj", "{E7E1E688-50E0-46B1-9C77-840EB3A7B06D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CombatDamageSystemFix", "CombatDamageSystemFix\CombatDamageSystemFix.csproj", "{EC865F5C-499B-4F27-AA48-7273492483C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{E7E1E688-50E0-46B1-9C77-840EB3A7B06D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7E1E688-50E0-46B1-9C77-840EB3A7B06D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7E1E688-50E0-46B1-9C77-840EB3A7B06D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC865F5C-499B-4F27-AA48-7273492483C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC865F5C-499B-4F27-AA48-7273492483C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC865F5C-499B-4F27-AA48-7273492483C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC865F5C-499B-4F27-AA48-7273492483C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

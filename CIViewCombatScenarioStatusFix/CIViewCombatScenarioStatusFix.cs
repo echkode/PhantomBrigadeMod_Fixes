@@ -25,8 +25,8 @@ namespace EchKode.PBMods.CIViewCombatScenarioStatusFix
 			var remaining = turnCheck.value - turnValue;
 			Debug.LogFormat(
 				"Mod {0} ({1}) state scope metadata | turn: {2} | step: {3} | entry turn: {4}\n  turn check | comparison: {5} | value: {6} ({7}) | actual: {8}\n  turns: {9}/{10}",
-				ModLink.modIndex,
-				ModLink.modID,
+				ModLink.ModIndex,
+				ModLink.ModID,
 				currentTurn,
 				scopeMetadata.entryStepKey,
 				scopeMetadata.entryTurn,
